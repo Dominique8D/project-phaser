@@ -85,6 +85,9 @@ function App()
             <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
             <div>
                 <div>
+                    Project Phaser React
+                </div>
+                <div>
                     <button className="button" onClick={changeScene}>Change Scene</button>
                 </div>
                 <div>
