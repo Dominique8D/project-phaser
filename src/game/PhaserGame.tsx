@@ -3,6 +3,10 @@ import StartGame from './main';
 import { EventBus } from './EventBus';
 import { Stack } from '@mui/material';
 
+export interface Translations {
+  [key: string]: string;
+}
+
 export interface IRefPhaserGame {
   game: Phaser.Game | null;
   scene: Phaser.Scene | null;
@@ -10,10 +14,11 @@ export interface IRefPhaserGame {
 
 interface IProps {
   currentActiveScene?: (scene_instance: Phaser.Scene) => void;
+  translations: Translations;
 }
 
 export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame(
-  { currentActiveScene },
+  { currentActiveScene, translations },
   ref,
 ) {
   const game = useRef<Phaser.Game | null>(null!);
@@ -55,6 +60,12 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
       EventBus.removeListener('current-scene-ready');
     };
   }, [currentActiveScene, ref]);
+
+  useEffect(() => {
+    if (game.current) {
+      EventBus.emit('updateTranslations', translations);
+    }
+  }, [translations]);
 
   return <Stack id='game-container'></Stack>;
 });

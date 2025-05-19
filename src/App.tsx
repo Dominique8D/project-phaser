@@ -73,6 +73,10 @@ function App() {
     setCanMoveSprite(scene.scene.key !== 'MainMenu');
   };
 
+  const gameTranslations = {
+    title: t('title'),
+  };
+
   return (
     <Stack
       direction='row'
@@ -84,7 +88,11 @@ function App() {
         justifyContent: 'center',
       }}
     >
-      <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+      <PhaserGame
+        ref={phaserRef}
+        currentActiveScene={currentScene}
+        translations={gameTranslations}
+      />
       <Stack>
         <h1> {t('title')} </h1>
         <Stack direction='row'>
