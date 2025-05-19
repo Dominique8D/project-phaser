@@ -2,13 +2,16 @@ import { useRef, useState } from 'react';
 import { IRefPhaserGame, PhaserGame } from './game/PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
 import { IconButton, Stack } from '@mui/material';
-import { ThemeProviderWrapper } from './theme/theme-provider-wrapper';
 import ThemeToggleButton from './theme/theme-toggle-button';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import useLangTranslation from './custom-hooks/use-lang-translation';
+import './i18n';
+import LangSelector from './components/lang-selector';
 
 function App() {
+  const { t } = useLangTranslation('common');
   // The sprite can only be moved in the MainMenu Scene
   const [canMoveSprite, setCanMoveSprite] = useState(true);
 
@@ -71,38 +74,39 @@ function App() {
   };
 
   return (
-    <ThemeProviderWrapper>
-      <Stack
-        direction='row'
-        gap={2}
-        sx={{
-          height: '100%',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
-        <Stack>
-          <Stack>Project Phaser React</Stack>
+    <Stack
+      direction='row'
+      gap={2}
+      sx={{
+        height: '100%',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+      <Stack>
+        <h1> {t('title')} </h1>
+        <Stack direction='row'>
           <ThemeToggleButton />
-          <Stack direction='row'>
-            <IconButton onClick={changeScene}>
-              <ChangeCircleIcon />
-            </IconButton>
-            <IconButton disabled={canMoveSprite} onClick={moveSprite}>
-              <OpenWithIcon />
-            </IconButton>
-            <IconButton onClick={addSprite}>
-              <AddCircleIcon />
-            </IconButton>
-          </Stack>
-          <Stack>
-            <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
-          </Stack>
+          <LangSelector />
+        </Stack>
+        <Stack direction='row'>
+          <IconButton onClick={changeScene}>
+            <ChangeCircleIcon />
+          </IconButton>
+          <IconButton disabled={canMoveSprite} onClick={moveSprite}>
+            <OpenWithIcon />
+          </IconButton>
+          <IconButton onClick={addSprite}>
+            <AddCircleIcon />
+          </IconButton>
+        </Stack>
+        <Stack>
+          <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
         </Stack>
       </Stack>
-    </ThemeProviderWrapper>
+    </Stack>
   );
 }
 
