@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { getValidQueryParam } from '../utils/get-valid-query-param';
+import useUpdateQueryParam from '../custom-hooks/use-update-query-param';
 
 interface LanguageContextType {
   language: string;
@@ -7,18 +9,14 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+const PARAM_KEY = 'lang'
 const DEFAULT_LANG = 'nl';
 const VALID_LANGUAGES = ['nl', 'gb'];
 
-function getValidQueryLang(): string {
-  const urlParams = new URLSearchParams(window.location.search);
-  const queryLang = urlParams.get('lang');
-  return VALID_LANGUAGES.includes(queryLang ?? '') ? queryLang! : DEFAULT_LANG;
-}
-
 const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const queryLang = getValidQueryLang();
+  const queryLang = getValidQueryParam(PARAM_KEY, VALID_LANGUAGES, DEFAULT_LANG);
   const [language, setLanguage] = useState(queryLang);
+  useUpdateQueryParam(PARAM_KEY, language);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
