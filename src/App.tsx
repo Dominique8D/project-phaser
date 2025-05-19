@@ -1,6 +1,12 @@
 import { useRef, useState } from 'react';
 import { IRefPhaserGame, PhaserGame } from './game/PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
+import { IconButton, Stack } from '@mui/material';
+import { ThemeProviderWrapper } from './theme/theme-provider-wrapper';
+import ThemeToggleButton from './theme/theme-toggle-button';
+import OpenWithIcon from '@mui/icons-material/OpenWith';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function App() {
   // The sprite can only be moved in the MainMenu Scene
@@ -65,31 +71,38 @@ function App() {
   };
 
   return (
-    <div id='app'>
-      <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
-      <div>
-        <div>Project Phaser React</div>
-        <div>
-          <button className='button' onClick={changeScene}>
-            Change Scene
-          </button>
-        </div>
-        <div>
-          <button disabled={canMoveSprite} className='button' onClick={moveSprite}>
-            Toggle Movement
-          </button>
-        </div>
-        <div className='spritePosition'>
-          Sprite Position:
-          <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
-        </div>
-        <div>
-          <button className='button' onClick={addSprite}>
-            Add New Sprite
-          </button>
-        </div>
-      </div>
-    </div>
+    <ThemeProviderWrapper>
+      <Stack
+        direction='row'
+        gap={2}
+        sx={{
+          height: '100%',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+        <Stack>
+          <Stack>Project Phaser React</Stack>
+          <ThemeToggleButton />
+          <Stack direction='row'>
+            <IconButton onClick={changeScene}>
+              <ChangeCircleIcon />
+            </IconButton>
+            <IconButton disabled={canMoveSprite} onClick={moveSprite}>
+              <OpenWithIcon />
+            </IconButton>
+            <IconButton onClick={addSprite}>
+              <AddCircleIcon />
+            </IconButton>
+          </Stack>
+          <Stack>
+            <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
+          </Stack>
+        </Stack>
+      </Stack>
+    </ThemeProviderWrapper>
   );
 }
 
