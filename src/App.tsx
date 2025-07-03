@@ -1,16 +1,14 @@
 import { useRef, useState } from 'react';
 import { IRefPhaserGame, PhaserGame } from './game/PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
-import { IconButton, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import ThemeToggleButton from './theme/theme-toggle-button';
-import OpenWithIcon from '@mui/icons-material/OpenWith';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import useLangTranslation from './custom-hooks/use-lang-translation';
 import './i18n';
 import LangSelector from './components/lang-selector';
 import GameSelector, { TEST_GAME } from './components/game-selector';
 import { EndlessGame } from './endless_game/PhaserGame';
+import TestGameControls from './components/test_game/test-game-controls';
 
 function App() {
   const { t } = useLangTranslation('common');
@@ -21,6 +19,8 @@ function App() {
   const phaserRef = useRef<IRefPhaserGame | null>(null);
   const [spritePosition, setSpritePosition] = useState({ x: 0, y: 0 });
   const [currentGame, setCurrentGame] = useState<string | null>(null);
+
+  const isInTestGame = currentGame === TEST_GAME;
 
   const changeScene = () => {
     if (phaserRef.current) {
@@ -95,7 +95,7 @@ function App() {
         <GameSelector currentGame={currentGame} setCurrentGame={setCurrentGame} />
       ) : (
         <>
-          {currentGame === TEST_GAME ? (
+          {isInTestGame ? (
             <PhaserGame
               ref={phaserRef}
               currentActiveScene={currentScene}
@@ -112,25 +112,23 @@ function App() {
       )}
       <Stack>
         <h1> {t('title')} </h1>
-
         <Stack direction='row'>
           <ThemeToggleButton />
           <LangSelector />
         </Stack>
-        <Stack direction='row'>
-          <IconButton onClick={changeScene}>
-            <ChangeCircleIcon />
-          </IconButton>
-          <IconButton disabled={canMoveSprite} onClick={moveSprite}>
-            <OpenWithIcon />
-          </IconButton>
-          <IconButton onClick={addSprite}>
-            <AddCircleIcon />
-          </IconButton>
-        </Stack>
-        <Stack>
-          <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
-        </Stack>
+        {isInTestGame && (
+          <TestGameControls
+            changeScene={changeScene}
+            canMoveSprite={canMoveSprite}
+            moveSprite={moveSprite}
+            addSprite={addSprite}
+          />
+        )}
+        {isInTestGame && (
+          <Stack>
+            <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );
