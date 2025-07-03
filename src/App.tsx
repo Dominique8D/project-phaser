@@ -9,6 +9,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import useLangTranslation from './custom-hooks/use-lang-translation';
 import './i18n';
 import LangSelector from './components/lang-selector';
+import GameSelector, { TEST_GAME } from './components/game-selector';
+import { EndlessGame } from './endless_game/PhaserGame';
 
 function App() {
   const { t } = useLangTranslation('common');
@@ -18,6 +20,7 @@ function App() {
   //  References to the PhaserGame component (game and scene are exposed)
   const phaserRef = useRef<IRefPhaserGame | null>(null);
   const [spritePosition, setSpritePosition] = useState({ x: 0, y: 0 });
+  const [currentGame, setCurrentGame] = useState<string | null>(null);
 
   const changeScene = () => {
     if (phaserRef.current) {
@@ -88,13 +91,28 @@ function App() {
         justifyContent: 'center',
       }}
     >
-      <PhaserGame
-        ref={phaserRef}
-        currentActiveScene={currentScene}
-        translations={gameTranslations}
-      />
+      {currentGame === null ? (
+        <GameSelector currentGame={currentGame} setCurrentGame={setCurrentGame} />
+      ) : (
+        <>
+          {currentGame === TEST_GAME ? (
+            <PhaserGame
+              ref={phaserRef}
+              currentActiveScene={currentScene}
+              translations={gameTranslations}
+            />
+          ) : (
+            <EndlessGame
+              ref={phaserRef}
+              currentActiveScene={currentScene}
+              translations={gameTranslations}
+            />
+          )}
+        </>
+      )}
       <Stack>
         <h1> {t('title')} </h1>
+
         <Stack direction='row'>
           <ThemeToggleButton />
           <LangSelector />
