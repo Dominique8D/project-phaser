@@ -16,6 +16,14 @@ export class MainMenu extends Scene {
     this.background = this.add.image(512, 384, 'background');
     this.logo = this.add.image(512, 300, 'logo').setDepth(100);
 
+    this.logo = this.add.image(512, 600, 'tst_fall').setDepth(100);
+    this.logo = this.add.image(522, 600, 'tst_idle').setDepth(100);
+    this.logo = this.add.image(532, 600, 'tst_jmp').setDepth(100);
+    this.logo = this.add.image(542, 600, 'tst_move').setDepth(100);
+    this.logo = this.add.image(552, 600, 'tst_plummet').setDepth(100);
+    this.logo = this.add.image(562, 600, 'tst_powerup').setDepth(100);
+    this.logo = this.add.image(572, 600, 'tst_step').setDepth(100);
+
     this.title = this.add
       .text(512, 460, 'Main Menu', {
         fontFamily: 'Arial Black',
