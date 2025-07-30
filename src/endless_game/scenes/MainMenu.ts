@@ -6,7 +6,7 @@ export class MainMenu extends Scene {
   background: GameObjects.Image;
   logo: GameObjects.Image;
   title: GameObjects.Text;
-  logoTween: Phaser.Tweens.Tween | null;
+  startButton: GameObjects.Image;
 
   constructor() {
     super('MainMenu');
@@ -23,6 +23,19 @@ export class MainMenu extends Scene {
     this.logo = this.add.image(552, 600, 'tst_plummet').setDepth(100);
     this.logo = this.add.image(562, 600, 'tst_powerup').setDepth(100);
     this.logo = this.add.image(572, 600, 'tst_step').setDepth(100);
+
+    const centerX = this.cameras.main.width / 2;
+    const centerY = this.cameras.main.height / 2;
+
+    const startButton = this.add
+      .image(centerX, centerY, 'tst_powerup')
+      .setDepth(100)
+      .setScale(10)
+      .setInteractive();
+
+    startButton.on('pointerdown', () => {
+      this.scene.start('MainGame');
+    });
 
     this.title = this.add
       .text(512, 460, 'Main Menu', {
@@ -41,40 +54,6 @@ export class MainMenu extends Scene {
     });
 
     EventBus.emit('current-scene-ready', this);
-  }
-
-  changeScene() {
-    if (this.logoTween) {
-      this.logoTween.stop();
-      this.logoTween = null;
-    }
-    this.scene.start('Game');
-  }
-
-  moveLogo(vueCallback: ({ x, y }: { x: number; y: number }) => void) {
-    if (this.logoTween) {
-      if (this.logoTween.isPlaying()) {
-        this.logoTween.pause();
-      } else {
-        this.logoTween.play();
-      }
-    } else {
-      this.logoTween = this.tweens.add({
-        targets: this.logo,
-        x: { value: 750, duration: 3000, ease: 'Back.easeInOut' },
-        y: { value: 80, duration: 1500, ease: 'Sine.easeOut' },
-        yoyo: true,
-        repeat: -1,
-        onUpdate: () => {
-          if (vueCallback) {
-            vueCallback({
-              x: Math.floor(this.logo.x),
-              y: Math.floor(this.logo.y),
-            });
-          }
-        },
-      });
-    }
   }
 
   shutdown() {

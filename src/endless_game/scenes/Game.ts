@@ -1,13 +1,20 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
+import { Player } from '../objects/player';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
   background: Phaser.GameObjects.Image;
   gameText: Phaser.GameObjects.Text;
+  player: Player;
+  pointer: Phaser.Input.Pointer;
 
   constructor() {
-    super('Game');
+    super('MainGame');
+  }
+
+  preload() {
+    this.load.image('tst_idle', 'assets/tst_idle.png');
   }
 
   create() {
@@ -17,22 +24,22 @@ export class Game extends Scene {
     this.background = this.add.image(512, 384, 'background');
     this.background.setAlpha(0.5);
 
-    this.gameText = this.add
-      .text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-        fontFamily: 'Arial Black',
-        fontSize: 38,
-        color: '#ffffff',
-        stroke: '#000000',
-        strokeThickness: 8,
-        align: 'center',
-      })
-      .setOrigin(0.5)
-      .setDepth(100);
+    this.physics.world.setBounds(0, 0, 1024, 768);
+
+    const scaleWidth = this.scale.width;
+    const scaleHeight = this.scale.height;
+
+    this.player = new Player(this, scaleWidth / 2, scaleHeight / 1, 'tst_idle');
+    this.player.setScale(5);
+
+    this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+      this.pointer = pointer;
+    });
 
     EventBus.emit('current-scene-ready', this);
   }
 
-  changeScene() {
-    this.scene.start('GameOver');
+  update() {
+    this.player.update(this.pointer);
   }
 }
