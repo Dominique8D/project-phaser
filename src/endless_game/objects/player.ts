@@ -4,7 +4,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   private leftBound: number;
   private rightBound: number;
   private bodyRef: Phaser.Physics.Arcade.Body;
-  private readonly jumpPower: number = 500;
+  private readonly jumpPower: number = 600;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
@@ -36,9 +36,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  private jump() {
-    if (this.bodyRef.blocked.down) {
-      this.setVelocityY(-this.jumpPower);
+  public jump(ignoreGround: boolean = false) {
+    if (this.bodyRef.blocked.down || ignoreGround) {
+      this.setVelocityY(0);
+      const multiplier = ignoreGround ? 1.25 : 1;
+      this.setVelocityY(-this.jumpPower * multiplier);
     }
   }
 }

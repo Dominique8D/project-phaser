@@ -1,6 +1,7 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Player } from '../objects/player';
+import { JumpOrb } from '../objects/jump-orb';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -31,6 +32,10 @@ export class Game extends Scene {
 
     this.player = new Player(this, scaleWidth / 2, scaleHeight / 1, 'tst_idle');
     this.player.setScale(5);
+
+    new JumpOrb(this, scaleWidth / 2, 550, 'tst_powerup', this.player).setScale(5);
+    new JumpOrb(this, scaleWidth / 1.5, 350, 'tst_powerup', this.player).setScale(5);
+    new JumpOrb(this, scaleWidth / 2.5, 150, 'tst_powerup', this.player).setScale(5);
 
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.pointer = pointer;
