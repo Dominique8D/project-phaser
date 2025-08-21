@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { IRefPhaserGame, PhaserGame } from './game/PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
-import { Stack } from '@mui/material';
+import { AppBar, Stack, Toolbar, Typography } from '@mui/material';
 import ThemeToggleButton from './theme/theme-toggle-button';
 import useLangTranslation from './custom-hooks/use-lang-translation';
 import './i18n';
@@ -81,56 +81,53 @@ function App() {
   };
 
   return (
-    <Stack
-      direction='row'
-      gap={2}
-      sx={{
-        height: '100%',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      {currentGame === null ? (
-        <GameSelector currentGame={currentGame} setCurrentGame={setCurrentGame} />
-      ) : (
-        <>
-          {isInTestGame ? (
-            <PhaserGame
-              ref={phaserRef}
-              currentActiveScene={currentScene}
-              translations={gameTranslations}
-            />
-          ) : (
-            <EndlessGame
-              ref={phaserRef}
-              currentActiveScene={currentScene}
-              translations={gameTranslations}
-            />
-          )}
-        </>
-      )}
-      <Stack>
-        <h1> {t('title')} </h1>
-        <Stack direction='row'>
-          <ThemeToggleButton />
-          <LangSelector />
-        </Stack>
-        {isInTestGame && (
-          <TestGameControls
-            changeScene={changeScene}
-            canMoveSprite={canMoveSprite}
-            moveSprite={moveSprite}
-            addSprite={addSprite}
-          />
-        )}
-        {isInTestGame && (
-          <Stack>
-            <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
+    <>
+      <AppBar position='sticky' color='primary'>
+        <Toolbar>
+          <Stack direction='row' justifyContent='space-between' alignItems='center' width='100%'>
+            <h1>{t('title')}</h1>
+            <Stack direction='row' spacing={2}>
+              <ThemeToggleButton />
+              <LangSelector />
+            </Stack>
           </Stack>
+        </Toolbar>
+      </AppBar>
+
+      <Stack p={2} gap={2}>
+        {currentGame === null ? (
+          <GameSelector currentGame={currentGame} setCurrentGame={setCurrentGame} />
+        ) : (
+          <>
+            {isInTestGame ? (
+              <PhaserGame
+                ref={phaserRef}
+                currentActiveScene={currentScene}
+                translations={gameTranslations}
+              />
+            ) : (
+              <EndlessGame
+                ref={phaserRef}
+                currentActiveScene={currentScene}
+                translations={gameTranslations}
+              />
+            )}
+
+            {isInTestGame && (
+              <Stack direction='row' justifyContent='center' alignItems='center'>
+                <TestGameControls
+                  changeScene={changeScene}
+                  canMoveSprite={canMoveSprite}
+                  moveSprite={moveSprite}
+                  addSprite={addSprite}
+                />
+                <Typography>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</Typography>
+              </Stack>
+            )}
+          </>
         )}
       </Stack>
-    </Stack>
+    </>
   );
 }
 
