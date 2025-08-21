@@ -71,16 +71,23 @@ export class Game extends Scene {
 
   private generatePowerups(): void {
     const POWERUP_CONFIG = {
-      spacing: 100,
+      spacingY: 150,
       marginX: 100,
       scale: 5,
+      zones: 3,
+      verticalOffset: 100,
     };
-    const { spacing, marginX, scale } = POWERUP_CONFIG;
-    const numPowerups = Math.floor(WORLD_HEIGHT / spacing);
+
+    const { spacingY, marginX, scale, zones, verticalOffset } = POWERUP_CONFIG;
+    const screenWidth = this.scale.width;
+    const zoneWidth = (screenWidth - 2 * marginX) / zones;
+    const numPowerups = Math.floor((WORLD_HEIGHT - verticalOffset) / spacingY);
 
     for (let i = 0; i < numPowerups; i++) {
-      const y = WORLD_HEIGHT - POWERUP_CONFIG.spacing - i * spacing;
-      const x = Phaser.Math.Between(marginX, this.scale.width - marginX);
+      const y = WORLD_HEIGHT - verticalOffset - i * spacingY;
+      const zoneIndex = i % zones;
+      const baseX = marginX + zoneIndex * zoneWidth;
+      const x = Phaser.Math.Between(baseX, baseX + zoneWidth);
 
       new JumpOrb(this, x, y, 'tst_powerup', this.player).setScale(scale);
     }
