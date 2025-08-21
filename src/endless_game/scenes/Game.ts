@@ -3,7 +3,7 @@ import { Scene } from 'phaser';
 import { Player } from '../objects/player';
 import { JumpOrb } from '../objects/jump-orb';
 
-const WORLD_HEIGHT = 1000;
+const WORLD_HEIGHT = 100000;
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -59,20 +59,31 @@ export class Game extends Scene {
 
     this.camera.startFollow(this.player, false, 0, 1);
 
-    // Powerups test placement
-    new JumpOrb(this, playerStartX, playerStartY - 200, 'tst_powerup', this.player).setScale(5);
-    new JumpOrb(this, playerStartX + 150, playerStartY - 400, 'tst_powerup', this.player).setScale(
-      5,
-    );
-    new JumpOrb(this, playerStartX - 150, playerStartY - 600, 'tst_powerup', this.player).setScale(
-      5,
-    );
+    // Add power ups
+    this.generatePowerups();
 
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.pointer = pointer;
     });
 
     EventBus.emit('current-scene-ready', this);
+  }
+
+  private generatePowerups(): void {
+    const POWERUP_CONFIG = {
+      spacing: 100,
+      marginX: 100,
+      scale: 5,
+    };
+    const { spacing, marginX, scale } = POWERUP_CONFIG;
+    const numPowerups = Math.floor(WORLD_HEIGHT / spacing);
+
+    for (let i = 0; i < numPowerups; i++) {
+      const y = WORLD_HEIGHT - POWERUP_CONFIG.spacing - i * spacing;
+      const x = Phaser.Math.Between(marginX, this.scale.width - marginX);
+
+      new JumpOrb(this, x, y, 'tst_powerup', this.player).setScale(scale);
+    }
   }
 
   update(delta: number) {
