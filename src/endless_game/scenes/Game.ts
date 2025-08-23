@@ -1,7 +1,7 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Player } from '../objects/player';
-import { JumpOrb } from '../objects/jump-orb';
+import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utilts';
 
 const WORLD_HEIGHT = 100000;
 
@@ -15,52 +15,18 @@ export class Game extends Scene {
   }
 
   preload() {
-    this.load.image('tst_idle', 'assets/tst_idle.png');
-    this.load.image('tst_powerup', 'assets/tst_powerup.png');
+    this.load.image('jump-orb', 'assets/endless/jump-orb.png');
   }
 
   create() {
-    const screenWidth = this.scale.width;
-    const screenHeight = this.scale.height;
+    const { screenWidth, screenHeight } = getGameWorldPamaters(this);
 
-    const worldWidth = screenWidth;
-    const worldHeight = WORLD_HEIGHT;
+    this.setupGameWorld(screenWidth);
+    this.createPlayer(screenWidth);
+    this.setupCamera(screenWidth, screenHeight);
+    setupDebugLines(this, screenWidth);
 
-    this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
-
-    this.camera = this.cameras.main;
-    this.camera.setBounds(0, 0, worldWidth, worldHeight);
-    // Start camera at bottom
-    this.camera.scrollY = worldHeight - screenHeight;
-
-    // Debug lines for ground and top
-    const groundY = worldHeight;
-
-    const groundLine = this.add.graphics();
-    groundLine.lineStyle(20, 0xff0000, 1);
-    groundLine.beginPath();
-    groundLine.moveTo(0, groundY);
-    groundLine.lineTo(worldWidth, groundY);
-    groundLine.strokePath();
-
-    const topLine = this.add.graphics();
-    topLine.lineStyle(20, 0x00ff00, 1);
-    topLine.beginPath();
-    topLine.moveTo(0, 0);
-    topLine.lineTo(worldWidth, 0);
-    topLine.strokePath();
-
-    // Start player at bottom
-    const playerStartX = screenWidth / 2;
-    const playerStartY = groundY - 100;
-
-    this.player = new Player(this, playerStartX, playerStartY, 'tst_idle');
-    this.player.setScale(5);
-
-    this.camera.startFollow(this.player, false, 0, 1);
-
-    // Add power ups
-    this.generatePowerups();
+    generatePowerups(this, this.player);
 
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.pointer = pointer;
@@ -69,33 +35,38 @@ export class Game extends Scene {
     EventBus.emit('current-scene-ready', this);
   }
 
-  private generatePowerups(): void {
-    const POWERUP_CONFIG = {
-      spacingY: 150,
-      marginX: 100,
-      scale: 5,
-      zones: 3,
-      verticalOffset: 100,
-    };
-
-    const { spacingY, marginX, scale, zones, verticalOffset } = POWERUP_CONFIG;
-    const screenWidth = this.scale.width;
-    const zoneWidth = (screenWidth - 2 * marginX) / zones;
-    const numPowerups = Math.floor((WORLD_HEIGHT - verticalOffset) / spacingY);
-
-    for (let i = 0; i < numPowerups; i++) {
-      const y = WORLD_HEIGHT - verticalOffset - i * spacingY;
-      const zoneIndex = i % zones;
-      const baseX = marginX + zoneIndex * zoneWidth;
-      const x = Phaser.Math.Between(baseX, baseX + zoneWidth);
-
-      new JumpOrb(this, x, y, 'tst_powerup', this.player).setScale(scale);
-    }
+  update(delta: number) {
+    this.updatePlayer();
+    this.updateCamera(delta);
   }
 
-  update(delta: number) {
+  private setupGameWorld(screenWidth: number) {
+    this.physics.world.setBounds(0, 0, screenWidth, WORLD_HEIGHT);
+  }
+
+  private setupCamera(screenWidth: number, screenHeight: number) {
+    this.camera = this.cameras.main;
+    this.camera.setBounds(0, 0, screenWidth, WORLD_HEIGHT);
+    // Start camera at bottom
+    this.camera.scrollY = screenWidth - screenHeight;
+    // Follow player
+    this.camera.startFollow(this.player, false, 0, 1);
+  }
+
+  private updateCamera(delta: number) {
     const camScrollSpeedPerSec = 120;
-    this.player.update(this.pointer);
     this.camera.scrollY -= camScrollSpeedPerSec * (delta / 1000);
+  }
+
+  private createPlayer(screenWidth: number) {
+    const playerStartX = screenWidth / 2;
+    const playerStartY = WORLD_HEIGHT;
+
+    this.player = new Player(this, playerStartX, playerStartY, 'tst_idle');
+    this.player.setScale(5);
+  }
+
+  private updatePlayer() {
+    this.player.update(this.pointer);
   }
 }
