@@ -5,6 +5,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   private rightBound: number;
   private bodyRef: Phaser.Physics.Arcade.Body;
   private readonly jumpPower: number = 600;
+  private readonly maxFallSpeed: number = 2000;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
@@ -15,6 +16,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
 
     this.bodyRef = this.body as Phaser.Physics.Arcade.Body;
+    this.bodyRef.setMaxVelocity(this.bodyRef.maxVelocity.x, this.maxFallSpeed);
     this.setBounce(0.5);
 
     const screenWidth = scene.scale.width;
@@ -30,10 +32,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   public update(pointer?: Phaser.Input.Pointer) {
     if (!pointer) return;
-
-    if (pointer.worldX >= this.leftBound && pointer.worldX <= this.rightBound) {
-      this.setX(pointer.worldX);
-    }
+    const lerpFactor = 0.1;
+    const targetX = Phaser.Math.Clamp(pointer.worldX, this.leftBound, this.rightBound);
+    const newX = Phaser.Math.Linear(this.x, targetX, lerpFactor);
+    this.setX(newX);
   }
 
   public jump(ignoreGround: boolean = false) {
