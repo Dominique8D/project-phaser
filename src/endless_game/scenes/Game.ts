@@ -2,6 +2,7 @@ import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Player } from '../objects/player';
 import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utilts';
+import { TargetIndicator } from '../objects/target-indiactor';
 
 const WORLD_HEIGHT = 100000;
 
@@ -9,6 +10,7 @@ export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
   player: Player;
   pointer: Phaser.Input.Pointer;
+  targetIndicator: TargetIndicator;
 
   constructor() {
     super('MainGame');
@@ -28,8 +30,17 @@ export class Game extends Scene {
 
     generatePowerups(this, this.player);
 
+    this.input.once('pointerdown', (pointer: Phaser.Input.Pointer) => {
+      this.targetIndicator = new TargetIndicator(this, pointer.worldX, pointer.worldY);
+      this.input.setDefaultCursor('none');
+    });
+
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.pointer = pointer;
+      // Target indicator follows mouse as well
+      if (this.targetIndicator) {
+        this.targetIndicator.followPointer(pointer);
+      }
     });
 
     EventBus.emit('current-scene-ready', this);
