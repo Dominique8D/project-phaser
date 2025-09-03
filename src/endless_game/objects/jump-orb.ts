@@ -13,6 +13,7 @@ export class JumpOrb extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.overlap(this, player, () => {
       player.jump(true);
       this.destroy();
+      scene.events.emit('updateScore', 100);
     });
   }
 }

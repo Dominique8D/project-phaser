@@ -2,7 +2,6 @@ import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Player } from '../objects/player';
 import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utilts';
-import { TargetIndicator } from '../objects/target-indiactor';
 
 const WORLD_HEIGHT = 100000;
 
@@ -10,7 +9,7 @@ export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
   player: Player;
   pointer: Phaser.Input.Pointer;
-  targetIndicator: TargetIndicator;
+  score: number;
 
   constructor() {
     super('MainGame');
@@ -21,6 +20,9 @@ export class Game extends Scene {
   }
 
   create() {
+    this.scene.launch('HUDScene');
+    this.setupScore();
+
     const { screenWidth, screenHeight } = getGameWorldPamaters(this);
 
     this.setupGameWorld(screenWidth);
@@ -30,17 +32,8 @@ export class Game extends Scene {
 
     generatePowerups(this, this.player);
 
-    this.input.once('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      this.targetIndicator = new TargetIndicator(this, pointer.worldX, pointer.worldY);
-      this.input.setDefaultCursor('none');
-    });
-
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.pointer = pointer;
-      // Target indicator follows mouse as well
-      if (this.targetIndicator) {
-        this.targetIndicator.followPointer(pointer);
-      }
     });
 
     EventBus.emit('current-scene-ready', this);
@@ -53,6 +46,18 @@ export class Game extends Scene {
 
   private setupGameWorld(screenWidth: number) {
     this.physics.world.setBounds(0, 0, screenWidth, WORLD_HEIGHT);
+  }
+
+  private setupScore() {
+    this.score = 0;
+
+    this.events.on('updateScore', (increase: number) => {
+      this.score += increase;
+
+      // HUDScene visueel bijwerken
+      const hud = this.scene.get('HUDScene');
+      hud.events.emit('updateScore', this.score);
+    });
   }
 
   private setupCamera(screenWidth: number, screenHeight: number) {
