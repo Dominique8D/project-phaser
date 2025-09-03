@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import StartGame from './main';
 import { EventBus } from './EventBus';
 import { Stack } from '@mui/material';
+import { EventTypes } from './EventTypes';
 
 export interface Translations {
   [key: string]: string;
@@ -45,7 +46,7 @@ export const EndlessGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGam
   }, [ref]);
 
   useEffect(() => {
-    EventBus.on('current-scene-ready', (scene_instance: Phaser.Scene) => {
+    EventBus.on(EventTypes.SCENE_READY, (scene_instance: Phaser.Scene) => {
       if (currentActiveScene && typeof currentActiveScene === 'function') {
         currentActiveScene(scene_instance);
       }
@@ -57,13 +58,13 @@ export const EndlessGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGam
       }
     });
     return () => {
-      EventBus.removeListener('current-scene-ready');
+      EventBus.removeListener(EventTypes.SCENE_READY);
     };
   }, [currentActiveScene, ref]);
 
   useEffect(() => {
     if (game.current) {
-      EventBus.emit('updateTranslations', translations);
+      EventBus.emit(EventTypes.UPDATE_TRANSLATIONS, translations);
     }
   }, [translations]);
 

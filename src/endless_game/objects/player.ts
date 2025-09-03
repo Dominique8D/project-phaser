@@ -1,11 +1,16 @@
 import Phaser from 'phaser';
+import { WORLD_HEIGHT } from '../utils/game-consts';
+import { EventTypes } from '../EventTypes';
+import { EventBus } from '../EventBus';
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
-  private leftBound: number;
-  private rightBound: number;
-  private bodyRef: Phaser.Physics.Arcade.Body;
   private readonly jumpPower: number = 600;
   private readonly maxFallSpeed: number = 2000;
+  private bodyRef: Phaser.Physics.Arcade.Body;
+  private hasTouchedGround: boolean = false;
+  private hasLanded: boolean = false;
+  private leftBound: number;
+  private rightBound: number;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
@@ -31,11 +36,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   public update(pointer?: Phaser.Input.Pointer) {
-    if (!pointer) return;
-    const lerpFactor = 0.1;
-    const targetX = Phaser.Math.Clamp(pointer.worldX, this.leftBound, this.rightBound);
-    const newX = Phaser.Math.Linear(this.x, targetX, lerpFactor);
-    this.setX(newX);
+    if (pointer) {
+      const lerpFactor = 0.1;
+      const targetX = Phaser.Math.Clamp(pointer.worldX, this.leftBound, this.rightBound);
+      const newX = Phaser.Math.Linear(this.x, targetX, lerpFactor);
+      this.setX(newX);
+    }
+
+    this.updateLandedState();
   }
 
   public jump(ignoreGround: boolean = false) {
@@ -44,6 +52,30 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       const multiplier = ignoreGround ? 1.25 : 1;
       this.setVelocityY(-this.jumpPower * multiplier);
     }
+  }
+
+  public updateLandedState() {
+    const touchingGround = this.bodyRef.blocked.down;
+    const verticalVelocity = Math.abs(this.bodyRef.velocity.y);
+    const landingVelocityThreshold = WORLD_HEIGHT * 0.00005;
+
+    if (touchingGround && !this.hasTouchedGround) {
+      this.hasTouchedGround = true;
+    }
+
+    if (this.hasTouchedGround && !this.hasLanded && verticalVelocity < landingVelocityThreshold) {
+      this.hasLanded = true;
+      EventBus.emit(EventTypes.PLAYER_LANDED);
+    }
+
+    if (!touchingGround) {
+      this.hasTouchedGround = false;
+      this.hasLanded = false;
+    }
+  }
+
+  public isLanded(): boolean {
+    return this.hasLanded;
   }
 }
 

@@ -1,3 +1,6 @@
+import { EventBus } from '../EventBus';
+import { EventTypes } from '../EventTypes';
+
 export class HUDScene extends Phaser.Scene {
   private scoreText!: Phaser.GameObjects.Text;
 
@@ -6,14 +9,20 @@ export class HUDScene extends Phaser.Scene {
   }
 
   create() {
-    this.scoreText = this.add.text(16, 16, 'Score: 0', {
+    this.scoreText = this.add.text(16, 16, '0', {
       fontSize: '24px',
       color: '#ffffff',
     });
 
-    this.events.on('updateScore', (score: number) => {
-      this.scoreText.setText('Score: ' + score);
-    });
+    EventBus.on(EventTypes.SCORE_UPDATED, this.updateScoreDisplay, this);
+  }
+
+  private updateScoreDisplay(newScore: number) {
+    this.scoreText.setText(`${newScore}`);
+  }
+
+  shutdown() {
+    EventBus.off(EventTypes.SCORE_UPDATED, this.updateScoreDisplay, this);
   }
 }
 

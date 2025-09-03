@@ -1,6 +1,7 @@
 import { GameObjects, Scene } from 'phaser';
 import { EventBus } from '../EventBus';
 import { Translations } from '../PhaserGame';
+import { EventTypes } from '../EventTypes';
 
 export class MainMenu extends Scene {
   background: GameObjects.Image;
@@ -49,14 +50,14 @@ export class MainMenu extends Scene {
       .setOrigin(0.5)
       .setDepth(100);
 
-    EventBus.on('updateTranslations', (translations: Translations) => {
+    EventBus.on(EventTypes.UPDATE_TRANSLATIONS, (translations: Translations) => {
       this.title.setText(translations.title);
     });
 
-    EventBus.emit('current-scene-ready', this);
+    EventBus.emit(EventTypes.SCENE_READY, this);
   }
 
   shutdown() {
-    EventBus.off('updateTranslations');
+    EventBus.off(EventTypes.UPDATE_TRANSLATIONS);
   }
 }

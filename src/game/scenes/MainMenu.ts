@@ -1,6 +1,7 @@
 import { GameObjects, Scene } from 'phaser';
 import { EventBus } from '../EventBus';
 import { Translations } from '../PhaserGame';
+import { EventTypes } from '../../endless_game/EventTypes';
 
 export class MainMenu extends Scene {
   background: GameObjects.Image;
@@ -28,7 +29,7 @@ export class MainMenu extends Scene {
       .setOrigin(0.5)
       .setDepth(100);
 
-    EventBus.on('updateTranslations', (translations: Translations) => {
+    EventBus.on(EventTypes.UPDATE_TRANSLATIONS, (translations: Translations) => {
       this.title.setText(translations.title);
     });
 
@@ -70,6 +71,6 @@ export class MainMenu extends Scene {
   }
 
   shutdown() {
-    EventBus.off('updateTranslations');
+    EventBus.off(EventTypes.UPDATE_TRANSLATIONS);
   }
 }

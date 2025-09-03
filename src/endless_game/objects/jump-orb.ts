@@ -1,3 +1,5 @@
+import { EventBus } from '../EventBus';
+import { EventTypes } from '../EventTypes';
 import { Player } from './player';
 
 export class JumpOrb extends Phaser.Physics.Arcade.Sprite {
@@ -13,7 +15,7 @@ export class JumpOrb extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.overlap(this, player, () => {
       player.jump(true);
       this.destroy();
-      scene.events.emit('updateScore', 100);
+      EventBus.emit(EventTypes.SCORE_INCREASE, 10);
     });
   }
 }

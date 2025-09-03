@@ -2,12 +2,14 @@ import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Player } from '../objects/player';
 import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utilts';
+import { EventTypes } from '../EventTypes';
 
 const WORLD_HEIGHT = 100000;
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
   player: Player;
+  orbGroup: Phaser.GameObjects.Group;
   pointer: Phaser.Input.Pointer;
   score: number;
 
@@ -30,13 +32,16 @@ export class Game extends Scene {
     this.setupCamera(screenWidth, screenHeight);
     setupDebugLines(this, screenWidth);
 
-    generatePowerups(this, this.player);
-
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.pointer = pointer;
     });
 
-    EventBus.emit('current-scene-ready', this);
+    EventBus.emit(EventTypes.SCENE_READY, this);
+
+    this.orbGroup = this.add.group();
+    EventBus.on(EventTypes.PLAYER_LANDED, () => {
+      this.resetSession();
+    });
   }
 
   update(delta: number) {
@@ -50,14 +55,18 @@ export class Game extends Scene {
 
   private setupScore() {
     this.score = 0;
+    EventBus.on(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
+    EventBus.on(EventTypes.SCORE_RESET, this.handleScoreReset, this);
+  }
 
-    this.events.on('updateScore', (increase: number) => {
-      this.score += increase;
+  private handleScoreIncrease(increase: number) {
+    this.score += increase;
+    EventBus.emit(EventTypes.SCORE_UPDATED, this.score);
+  }
 
-      // HUDScene visueel bijwerken
-      const hud = this.scene.get('HUDScene');
-      hud.events.emit('updateScore', this.score);
-    });
+  private handleScoreReset() {
+    this.score = 0;
+    EventBus.emit(EventTypes.SCORE_UPDATED, this.score);
   }
 
   private setupCamera(screenWidth: number, screenHeight: number) {
@@ -84,5 +93,15 @@ export class Game extends Scene {
 
   private updatePlayer() {
     this.player.update(this.pointer);
+  }
+
+  private resetSession() {
+    EventBus.emit(EventTypes.SCORE_RESET, this.score);
+    generatePowerups(this, this.player, this.orbGroup);
+  }
+
+  shutdown() {
+    EventBus.off(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
+    EventBus.off(EventTypes.SCORE_RESET, this.handleScoreIncrease, this);
   }
 }

@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import StartGame from './main';
 import { EventBus } from './EventBus';
 import { Stack } from '@mui/material';
+import { EventTypes } from '../endless_game/EventTypes';
 
 export interface Translations {
   [key: string]: string;
@@ -63,7 +64,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
 
   useEffect(() => {
     if (game.current) {
-      EventBus.emit('updateTranslations', translations);
+      EventBus.emit(EventTypes.UPDATE_TRANSLATIONS, translations);
     }
   }, [translations]);
 

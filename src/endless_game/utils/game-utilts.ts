@@ -13,7 +13,13 @@ export function getGameWorldPamaters(scene: Scene) {
   };
 }
 
-export function generatePowerups(scene: Scene, player: Player): void {
+export function generatePowerups(
+  scene: Phaser.Scene,
+  player: Player,
+  orbGroup: Phaser.GameObjects.Group,
+): void {
+  orbGroup.clear(true, true);
+
   const { spacingY, marginX, scale, zones, verticalOffset } = POWERUP_CONFIG;
   const screenWidth = scene.scale.width;
   const zoneWidth = (screenWidth - 2 * marginX) / zones;
@@ -25,7 +31,9 @@ export function generatePowerups(scene: Scene, player: Player): void {
     const baseX = marginX + zoneIndex * zoneWidth;
     const x = Phaser.Math.Between(baseX, baseX + zoneWidth);
 
-    new JumpOrb(scene, x, y, 'jump-orb', player).setScale(scale).setTint(0xfced4a);
+    const orb = new JumpOrb(scene, x, y, 'jump-orb', player).setScale(scale).setTint(0xfced4a);
+
+    orbGroup.add(orb);
   }
 }
 
