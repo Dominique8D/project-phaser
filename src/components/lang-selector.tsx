@@ -15,7 +15,11 @@ const LANGUAGES = ['nl', 'gb'];
 const FLAG_SIZE = 32;
 const FLAG_SIZE_MENU = 20;
 
-const LangSelector = () => {
+type LangSelectorProps = {
+  disabled: boolean;
+};
+
+const LangSelector = ({ disabled }: LangSelectorProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -36,20 +40,28 @@ const LangSelector = () => {
   return (
     <Stack>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Tooltip title='Select language'>
-          <IconButton
-            onClick={handleClick}
-            size='small'
-            sx={{ ml: 2 }}
-            aria-controls={open ? 'language-menu' : undefined}
-            aria-haspopup='true'
-            aria-expanded={open ? 'true' : undefined}
-          >
-            <Avatar sx={{ width: FLAG_SIZE, height: FLAG_SIZE }}>
-              <img src={flagUrl} alt={language} style={{ width: '100%', height: '100%' }} />
-            </Avatar>
-          </IconButton>
-        </Tooltip>
+        <IconButton
+          onClick={handleClick}
+          size='small'
+          sx={{ ml: 2 }}
+          aria-controls={open ? 'language-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          disabled={disabled}
+        >
+          <Avatar sx={{ width: FLAG_SIZE, height: FLAG_SIZE }}>
+            <img
+              src={flagUrl}
+              alt={language}
+              style={{
+                width: '100%',
+                height: '100%',
+                filter: disabled ? 'grayscale(100%)' : 'none',
+                opacity: disabled ? 0.5 : 1,
+              }}
+            />
+          </Avatar>
+        </IconButton>
       </Box>
       <Menu
         anchorEl={anchorEl}

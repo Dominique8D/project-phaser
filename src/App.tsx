@@ -7,7 +7,7 @@ import useLangTranslation from './custom-hooks/use-lang-translation';
 import './i18n';
 import LangSelector from './components/lang-selector';
 import GameSelector, { TEST_GAME } from './components/game-selector';
-import { EndlessGame } from './endless_game/PhaserGame';
+import { EndlessGame } from './endless_game/EndlessGame';
 import TestGameControls from './components/test_game/test-game-controls';
 
 function App() {
@@ -88,7 +88,7 @@ function App() {
             <h1>{t('title')}</h1>
             <Stack direction='row' spacing={2}>
               <ThemeToggleButton />
-              <LangSelector />
+              <LangSelector disabled={!!currentGame} />
             </Stack>
           </Stack>
         </Toolbar>

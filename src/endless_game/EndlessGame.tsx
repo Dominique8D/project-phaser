@@ -8,7 +8,7 @@ export interface Translations {
   [key: string]: string;
 }
 
-export interface IRefPhaserGame {
+export interface IRefEndlessGame {
   game: Phaser.Game | null;
   scene: Phaser.Scene | null;
 }
@@ -18,7 +18,7 @@ interface IProps {
   translations: Translations;
 }
 
-export const EndlessGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame(
+export const EndlessGame = forwardRef<IRefEndlessGame, IProps>(function PhaserGame(
   { currentActiveScene, translations },
   ref,
 ) {
