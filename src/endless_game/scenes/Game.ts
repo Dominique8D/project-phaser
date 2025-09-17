@@ -18,7 +18,11 @@ export class Game extends Scene {
   }
 
   preload() {
-    this.load.image('jump-orb', 'assets/endless/jump-orb.png');
+    this.load.atlas(
+      'objects',
+      'assets/endless/obj-pack-texture.png',
+      'assets/endless/obj-pack-texture.json',
+    );
   }
 
   create() {

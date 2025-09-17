@@ -31,7 +31,9 @@ export function generatePowerups(
     const baseX = marginX + zoneIndex * zoneWidth;
     const x = Phaser.Math.Between(baseX, baseX + zoneWidth);
 
-    const orb = new JumpOrb(scene, x, y, 'jump-orb', player).setScale(scale).setTint(0xfced4a);
+    const orb = new JumpOrb(scene, x, y, 'objects', 'step.png', player)
+      .setScale(scale)
+      .setTint(0xfced4a);
 
     orbGroup.add(orb);
   }

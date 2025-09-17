@@ -3,8 +3,15 @@ import { EventTypes } from '../EventTypes';
 import { Player } from './player';
 
 export class JumpOrb extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene: Phaser.Scene, x: number, y: number, texture: string, player: Player) {
-    super(scene, x, y, texture);
+  constructor(
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    texture: string,
+    frame: string,
+    player: Player,
+  ) {
+    super(scene, x, y, texture, frame);
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
