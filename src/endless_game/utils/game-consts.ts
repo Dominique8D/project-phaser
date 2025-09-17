@@ -4,6 +4,8 @@ export const POWERUP_CONFIG = {
   scale: 1.5,
   zones: 3,
   verticalOffset: 200,
+  junkOrbInterval: 8,
 };
 
 export const WORLD_HEIGHT = 100000;
+

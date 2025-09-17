@@ -20,7 +20,7 @@ export function generatePowerups(
 ): void {
   orbGroup.clear(true, true);
 
-  const { spacingY, marginX, scale, zones, verticalOffset } = POWERUP_CONFIG;
+  const { spacingY, marginX, scale, zones, verticalOffset, junkOrbInterval } = POWERUP_CONFIG;
   const screenWidth = scene.scale.width;
   const zoneWidth = (screenWidth - 2 * marginX) / zones;
   const numPowerups = Math.floor((WORLD_HEIGHT - verticalOffset) / spacingY);
@@ -31,7 +31,14 @@ export function generatePowerups(
     const baseX = marginX + zoneIndex * zoneWidth;
     const x = Phaser.Math.Between(baseX, baseX + zoneWidth);
 
-    const orb = new JumpOrb(scene, x, y, 'objects', 'step.png', player)
+    const JUNK_PART_SPRITES = ['nut', 'bolt', 'spring', 'gear', 'ramstick', 'pcb'];
+    const shouldBeJunkPart = i > 0 && i % junkOrbInterval === 0;
+    const orbScoreIncrease = shouldBeJunkPart ? 1 : 0;
+    const orbSprite = shouldBeJunkPart
+      ? `${Phaser.Utils.Array.GetRandom(JUNK_PART_SPRITES)}.png`
+      : 'step.png';
+
+    const orb = new JumpOrb(scene, x, y, 'objects', orbSprite, orbScoreIncrease, player)
       .setScale(scale)
       .setTint(0xfced4a);
 

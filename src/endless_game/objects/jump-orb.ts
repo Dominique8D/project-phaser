@@ -9,6 +9,7 @@ export class JumpOrb extends Phaser.Physics.Arcade.Sprite {
     y: number,
     texture: string,
     frame: string,
+    scoreIncrease: number,
     player: Player,
   ) {
     super(scene, x, y, texture, frame);
@@ -22,7 +23,7 @@ export class JumpOrb extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.overlap(this, player, () => {
       player.jump(true);
       this.destroy();
-      EventBus.emit(EventTypes.SCORE_INCREASE, 10);
+      EventBus.emit(EventTypes.SCORE_INCREASE, scoreIncrease);
     });
   }
 }
