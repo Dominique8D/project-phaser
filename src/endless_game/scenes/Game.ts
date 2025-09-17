@@ -3,8 +3,7 @@ import { Scene } from 'phaser';
 import { Player } from '../objects/player';
 import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utilts';
 import { EventTypes } from '../EventTypes';
-
-const WORLD_HEIGHT = 100000;
+import { WORLD_HEIGHT } from '../utils/game-consts';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;

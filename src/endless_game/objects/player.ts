@@ -57,7 +57,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   public updateLandedState() {
     const touchingGround = this.bodyRef.blocked.down;
     const verticalVelocity = Math.abs(this.bodyRef.velocity.y);
-    const landingVelocityThreshold = WORLD_HEIGHT * 0.00005;
+    const landingVelocityThreshold = 5;
 
     if (touchingGround && !this.hasTouchedGround) {
       this.hasTouchedGround = true;
