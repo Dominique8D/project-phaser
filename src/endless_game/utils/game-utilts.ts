@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { JumpOrb } from '../objects/jump-orb';
-import { POWERUP_CONFIG, WORLD_HEIGHT } from './game-consts';
+import { JUNK_PART_SPRITES, POWERUP_CONFIG, WORLD_HEIGHT } from './game-consts';
 import { Player } from '../objects/player';
 
 export function getGameWorldPamaters(scene: Scene) {
@@ -31,7 +31,6 @@ export function generatePowerups(
     const baseX = marginX + zoneIndex * zoneWidth;
     const x = Phaser.Math.Between(baseX, baseX + zoneWidth);
 
-    const JUNK_PART_SPRITES = ['nut', 'bolt', 'spring', 'gear', 'ramstick', 'pcb'];
     const shouldBeJunkPart = i > 0 && i % junkOrbInterval === 0;
     const orbScoreIncrease = shouldBeJunkPart ? 1 : 0;
     const orbSprite = shouldBeJunkPart

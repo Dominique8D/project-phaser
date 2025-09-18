@@ -7,5 +7,7 @@ export const POWERUP_CONFIG = {
   junkOrbInterval: 8,
 };
 
-export const WORLD_HEIGHT = 100000;
+export const WORLD_HEIGHT = 5000;
+
+export const JUNK_PART_SPRITES = ['nut', 'bolt', 'spring', 'gear', 'ramstick', 'pcb'];
 
