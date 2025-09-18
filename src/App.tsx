@@ -10,37 +10,43 @@ import GameSelector, { TEST_GAME } from './components/game-selector';
 import { EndlessGame } from './endless_game/EndlessGame';
 import TestGameControls from './components/test_game/test-game-controls';
 
+const APP_HEADER_HEIGHT = 64;
+const EXTRA_STACK_DIR = 'column';
+const EXTRA_STACK_SPACING = 1;
+const EXTRA_STACK_SX = {
+  width: { xs: '100%', md: 200 },
+  flexGrow: { xs: 1, md: 0 },
+  padding: 1,
+  backgroundColor: '#d3d3d3ff',
+  boxSizing: 'border-box',
+};
+const EXTRA_CHILD_EXAMPLE_SX = {
+  flex: 1,
+  borderRadius: 1,
+  padding: 1,
+  background: 'linear-gradient(135deg,rgba(0, 81, 255, 1), #00c3ffff)',
+};
+
 function App() {
   const { t } = useLangTranslation('common');
-  // The sprite can only be moved in the MainMenu Scene
   const [canMoveSprite, setCanMoveSprite] = useState(true);
-
-  //  References to the PhaserGame component (game and scene are exposed)
   const phaserRef = useRef<IRefPhaserGame | null>(null);
   const [spritePosition, setSpritePosition] = useState({ x: 0, y: 0 });
   const [currentGame, setCurrentGame] = useState<string | null>(null);
-
   const isInTestGame = currentGame === TEST_GAME;
 
   const changeScene = () => {
     if (phaserRef.current) {
       const scene = phaserRef.current.scene as MainMenu;
-
-      if (scene) {
-        scene.changeScene();
-      }
+      if (scene) scene.changeScene();
     }
   };
 
   const moveSprite = () => {
     if (phaserRef.current) {
       const scene = phaserRef.current.scene as MainMenu;
-
       if (scene && scene.scene.key === 'MainMenu') {
-        // Get the update logo position
-        scene.moveLogo(({ x, y }) => {
-          setSpritePosition({ x, y });
-        });
+        scene.moveLogo(({ x, y }) => setSpritePosition({ x, y }));
       }
     }
   };
@@ -48,18 +54,10 @@ function App() {
   const addSprite = () => {
     if (phaserRef.current) {
       const scene = phaserRef.current.scene;
-
       if (scene) {
-        // Add more stars
         const x = Phaser.Math.Between(64, scene.scale.width - 64);
         const y = Phaser.Math.Between(64, scene.scale.height - 64);
-
-        //  `add.sprite` is a Phaser GameObjectFactory method and it returns a Sprite Game Object instance
         const star = scene.add.sprite(x, y, 'star');
-
-        //  ... which you can then act upon. Here we create a Phaser Tween to fade the star sprite in and out.
-        //  You could, of course, do this from within the Phaser Scene code, but this is just an example
-        //  showing that Phaser objects and systems can be acted upon from outside of Phaser itself.
         scene.add.tween({
           targets: star,
           duration: 500 + Math.random() * 1000,
@@ -71,7 +69,6 @@ function App() {
     }
   };
 
-  // Event emitted from the PhaserGame component
   const currentScene = (scene: Phaser.Scene) => {
     setCanMoveSprite(scene.scene.key !== 'MainMenu');
   };
@@ -94,24 +91,52 @@ function App() {
         </Toolbar>
       </AppBar>
 
-      <Stack p={2} gap={2}>
+      <Stack p={2} gap={2} sx={{ height: `calc(100vh - ${APP_HEADER_HEIGHT}px)` }}>
         {currentGame === null ? (
           <GameSelector currentGame={currentGame} setCurrentGame={setCurrentGame} />
         ) : (
           <>
-            {isInTestGame ? (
-              <PhaserGame
-                ref={phaserRef}
-                currentActiveScene={currentScene}
-                translations={gameTranslations}
-              />
-            ) : (
-              <EndlessGame
-                ref={phaserRef}
-                currentActiveScene={currentScene}
-                translations={gameTranslations}
-              />
-            )}
+            <Stack
+              direction={{ xs: 'column', md: 'row' }}
+              sx={{ flexGrow: 1, width: '100%', overflow: 'hidden' }}
+            >
+              <Stack direction={EXTRA_STACK_DIR} spacing={EXTRA_STACK_SPACING} sx={EXTRA_STACK_SX}>
+                <Stack sx={EXTRA_CHILD_EXAMPLE_SX} />
+              </Stack>
+              <Stack
+                sx={{
+                  flexGrow: 2,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#f5f5f5',
+                  overflow: 'hidden',
+                  padding: 1,
+                  '& canvas': {
+                    width: '100% !important',
+                    height: 'auto !important',
+                    display: 'block',
+                  },
+                }}
+              >
+                {isInTestGame ? (
+                  <PhaserGame
+                    ref={phaserRef}
+                    currentActiveScene={currentScene}
+                    translations={gameTranslations}
+                  />
+                ) : (
+                  <EndlessGame
+                    ref={phaserRef}
+                    currentActiveScene={currentScene}
+                    translations={gameTranslations}
+                  />
+                )}
+              </Stack>
+
+              <Stack direction={EXTRA_STACK_DIR} spacing={EXTRA_STACK_SPACING} sx={EXTRA_STACK_SX}>
+                <Stack sx={EXTRA_CHILD_EXAMPLE_SX} />
+              </Stack>
+            </Stack>
 
             {isInTestGame && (
               <Stack direction='row' justifyContent='center' alignItems='center'>
