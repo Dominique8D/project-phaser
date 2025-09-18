@@ -20,13 +20,27 @@ export function generatePowerups(
 ): void {
   orbGroup.clear(true, true);
 
-  const { spacingY, marginX, scale, zones, verticalOffset, junkOrbInterval } = POWERUP_CONFIG;
+  const {
+    ySpacings,
+    marginX,
+    scale,
+    zones,
+    verticalOffset,
+    junkOrbInterval,
+    orbColors,
+    maxDiff,
+    diffIncreaseValue,
+  } = POWERUP_CONFIG;
+
+  let diffLevel = 0;
   const screenWidth = scene.scale.width;
   const zoneWidth = (screenWidth - 2 * marginX) / zones;
-  const numPowerups = Math.floor((WORLD_HEIGHT - verticalOffset) / spacingY);
 
-  for (let i = 0; i < numPowerups; i++) {
-    const y = WORLD_HEIGHT - verticalOffset - i * spacingY;
+  let y = WORLD_HEIGHT - verticalOffset;
+  let i = 0;
+
+  while (y > 0) {
+    const spacingY = ySpacings[diffLevel];
     const zoneIndex = i % zones;
     const baseX = marginX + zoneIndex * zoneWidth;
     const x = Phaser.Math.Between(baseX, baseX + zoneWidth);
@@ -39,9 +53,16 @@ export function generatePowerups(
 
     const orb = new JumpOrb(scene, x, y, 'objects', orbSprite, orbScoreIncrease, player)
       .setScale(scale)
-      .setTint(0xfced4a);
+      .setTint(shouldBeJunkPart ? undefined : orbColors[diffLevel]);
 
     orbGroup.add(orb);
+
+    y -= spacingY;
+    i++;
+
+    if (i % diffIncreaseValue === 0 && diffLevel < Math.min(maxDiff, ySpacings.length - 1)) {
+      diffLevel++;
+    }
   }
 }
 
