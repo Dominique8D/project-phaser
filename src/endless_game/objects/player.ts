@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import { WORLD_HEIGHT } from '../utils/game-consts';
 import { EventTypes } from '../EventTypes';
 import { EventBus } from '../EventBus';
 
