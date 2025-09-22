@@ -2,7 +2,7 @@ import { ThemeOptions } from '@mui/material/styles';
 
 export const themeOptions: ThemeOptions = {
   typography: {
-    fontFamily: ['"Capriola"', 'Arial', 'sans-serif'].join(','),
+    fontFamily: ['Orbitron', 'Arial', 'sans-serif'].join(','),
   },
   palette: {
     mode: 'dark',
@@ -14,3 +14,4 @@ export const themeOptions: ThemeOptions = {
     },
   },
 };
+
