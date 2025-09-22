@@ -3,7 +3,9 @@ import { Scene } from 'phaser';
 import { Player } from '../objects/player';
 import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utilts';
 import { EventTypes } from '../EventTypes';
-import { WORLD_HEIGHT } from '../utils/game-consts';
+import { CAM_SCROLL_SPEED, WORLD_HEIGHT, ZONE_CONFIG } from '../utils/game-consts';
+import { PlayerHeightTracker } from '../objects/player-height-tracker';
+import { BackgroundPipeline } from '../objects/background-pipeline';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -11,6 +13,8 @@ export class Game extends Scene {
   orbGroup: Phaser.GameObjects.Group;
   pointer: Phaser.Input.Pointer;
   score: number;
+  playerHeightTracker: PlayerHeightTracker;
+  bgPipeline: BackgroundPipeline;
 
   constructor() {
     super('MainGame');
@@ -22,6 +26,7 @@ export class Game extends Scene {
       'assets/endless/obj-pack-texture.png',
       'assets/endless/obj-pack-texture.json',
     );
+    this.load.glsl('bgShader', 'assets/endless/shaders/background.frag');
   }
 
   create() {
@@ -33,78 +38,95 @@ export class Game extends Scene {
     this.setupGameWorld(screenWidth);
     this.createPlayer(screenWidth);
     this.setupCamera(screenWidth, screenHeight);
+    this.setupBackgroundShader();
+
     setupDebugLines(this, screenWidth);
+
+    this.orbGroup = this.add.group();
 
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.pointer = pointer;
     });
 
     EventBus.emit(EventTypes.SCENE_READY, this);
-
-    this.orbGroup = this.add.group();
-    EventBus.on(EventTypes.PLAYER_LANDED, () => {
-      this.resetSession();
-    });
+    EventBus.on(EventTypes.PLAYER_LANDED, () => this.resetSession());
+    EventBus.on(EventTypes.PLAYER_ZONE_CHANGED, this.updateBackgroundColor, this);
   }
 
   update(delta: number) {
-    this.updatePlayer();
-    this.updateCamera(delta);
+    this.player.update(this.pointer);
+    this.playerHeightTracker.update(this.player.y);
+    this.camera.scrollY -= CAM_SCROLL_SPEED * (delta / 1000);
   }
 
-  private setupGameWorld(screenWidth: number) {
+  setupBackgroundShader() {
+    const renderer = this.renderer as Phaser.Renderer.WebGL.WebGLRenderer;
+    this.bgPipeline = new BackgroundPipeline(this.game);
+    renderer.pipelines.add('BackgroundPipeline', this.bgPipeline);
+
+    this.add
+      .rectangle(0, 0, this.scale.width, this.scale.height, 0xffffff)
+      .setOrigin(0)
+      .setPipeline('BackgroundPipeline')
+      .setScrollFactor(0)
+      .setDepth(-1);
+
+    const initialColor = ZONE_CONFIG[0].color as [number, number, number];
+    this.bgPipeline.setColor(...initialColor);
+  }
+
+  updateBackgroundColor(zone: number) {
+    if (!this.bgPipeline) return;
+
+    const targetColor = ZONE_CONFIG[zone].color as [number, number, number];
+    this.bgPipeline.fadeToColor(targetColor, 1000);
+  }
+
+  setupGameWorld(screenWidth: number) {
     this.physics.world.setBounds(0, 0, screenWidth, WORLD_HEIGHT);
   }
 
-  private setupScore() {
+  setupScore() {
     this.score = 0;
     EventBus.on(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
     EventBus.on(EventTypes.SCORE_RESET, this.handleScoreReset, this);
   }
 
-  private handleScoreIncrease(increase: number) {
+  handleScoreIncrease(increase: number) {
     this.score += increase;
     EventBus.emit(EventTypes.SCORE_UPDATED, this.score);
   }
 
-  private handleScoreReset() {
+  handleScoreReset() {
     this.score = 0;
     EventBus.emit(EventTypes.SCORE_UPDATED, this.score);
   }
 
-  private setupCamera(screenWidth: number, screenHeight: number) {
+  setupCamera(screenWidth: number, screenHeight: number) {
     this.camera = this.cameras.main;
     this.camera.setBounds(0, 0, screenWidth, WORLD_HEIGHT);
-    // Start camera at bottom
     this.camera.scrollY = screenWidth - screenHeight;
-    // Follow player
     this.camera.startFollow(this.player, false, 0, 1);
   }
 
-  private updateCamera(delta: number) {
-    const camScrollSpeedPerSec = 120;
-    this.camera.scrollY -= camScrollSpeedPerSec * (delta / 1000);
-  }
-
-  private createPlayer(screenWidth: number) {
+  createPlayer(screenWidth: number) {
     const playerStartX = screenWidth / 2;
     const playerStartY = WORLD_HEIGHT;
 
     this.player = new Player(this, playerStartX, playerStartY, 'tst_idle');
     this.player.setScale(5);
+
+    this.playerHeightTracker = new PlayerHeightTracker(this.player.y);
   }
 
-  private updatePlayer() {
-    this.player.update(this.pointer);
-  }
-
-  private resetSession() {
+  resetSession() {
     EventBus.emit(EventTypes.SCORE_RESET, this.score);
     generatePowerups(this, this.player, this.orbGroup);
   }
 
   shutdown() {
     EventBus.off(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
-    EventBus.off(EventTypes.SCORE_RESET, this.handleScoreIncrease, this);
+    EventBus.off(EventTypes.SCORE_RESET, this.handleScoreReset, this);
+    EventBus.off(EventTypes.PLAYER_ZONE_CHANGED, this.updateBackgroundColor, this);
   }
 }

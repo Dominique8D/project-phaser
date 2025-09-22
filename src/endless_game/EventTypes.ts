@@ -5,5 +5,6 @@ export const EventTypes = {
   SCORE_INCREASE: 'score-increase',
   SCORE_RESET: 'score-reset',
   SCORE_UPDATED: 'score-updated',
+  PLAYER_ZONE_CHANGED: 'zone-changed',
 };
 
