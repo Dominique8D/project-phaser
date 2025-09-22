@@ -71,15 +71,18 @@ export class Game extends Scene {
       .setScrollFactor(0)
       .setDepth(-1);
 
-    const initialColor = ZONE_CONFIG[0].color as [number, number, number];
-    this.bgPipeline.setColor(...initialColor);
+    const initialTop = ZONE_CONFIG[0].colorTop as [number, number, number];
+    const initialBottom = ZONE_CONFIG[0].colorBottom as [number, number, number];
+    this.bgPipeline.setGradient(initialTop, initialBottom);
   }
 
   updateBackgroundColor(zone: number) {
     if (!this.bgPipeline) return;
 
-    const targetColor = ZONE_CONFIG[zone].color as [number, number, number];
-    this.bgPipeline.fadeToColor(targetColor, 1000);
+    const zoneData = ZONE_CONFIG[zone];
+    const top = zoneData.colorTop as [number, number, number];
+    const bottom = zoneData.colorBottom as [number, number, number];
+    this.bgPipeline.fadeToGradient(top, bottom, 1000);
   }
 
   setupGameWorld(screenWidth: number) {

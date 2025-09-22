@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 
 export class BackgroundPipeline extends Phaser.Renderer.WebGL.Pipelines.SinglePipeline {
-  private color: [number, number, number] = [1.0, 0.0, 0.0]; // default rood
+  private colorTop: [number, number, number] = [1.0, 0.0, 0.0];
+  private colorBottom: [number, number, number] = [0.0, 0.0, 0.0];
 
   constructor(game: Phaser.Game) {
     super({
@@ -11,17 +12,24 @@ export class BackgroundPipeline extends Phaser.Renderer.WebGL.Pipelines.SinglePi
   }
 
   onRender() {
-    this.set3f('iColor', this.color[0], this.color[1], this.color[2]);
+    this.set3f('iColorTop', ...this.colorTop);
+    this.set3f('iColorBottom', ...this.colorBottom);
+    this.set2f('iResolution', this.game.scale.width, this.game.scale.height);
   }
 
-  setColor(r: number, g: number, b: number) {
-    this.color = [r, g, b];
+  setGradient(top: [number, number, number], bottom: [number, number, number]) {
+    this.colorTop = top;
+    this.colorBottom = bottom;
   }
 
-  fadeToColor(target: [number, number, number], duration: number = 1000) {
-    const startColor = [...this.color];
+  fadeToGradient(
+    targetTop: [number, number, number],
+    targetBottom: [number, number, number],
+    duration: number = 1000,
+  ) {
+    const startTop = [...this.colorTop];
+    const startBottom = [...this.colorBottom];
     const startTime = performance.now();
-
     const ease = Phaser.Math.Easing.Sine.InOut;
 
     const step = () => {
@@ -29,11 +37,15 @@ export class BackgroundPipeline extends Phaser.Renderer.WebGL.Pipelines.SinglePi
       const t = Math.min((now - startTime) / duration, 1);
       const easedT = ease(t);
 
-      const r = Phaser.Math.Linear(startColor[0], target[0], easedT);
-      const g = Phaser.Math.Linear(startColor[1], target[1], easedT);
-      const b = Phaser.Math.Linear(startColor[2], target[2], easedT);
+      const rTop = Phaser.Math.Linear(startTop[0], targetTop[0], easedT);
+      const gTop = Phaser.Math.Linear(startTop[1], targetTop[1], easedT);
+      const bTop = Phaser.Math.Linear(startTop[2], targetTop[2], easedT);
 
-      this.setColor(r, g, b);
+      const rBot = Phaser.Math.Linear(startBottom[0], targetBottom[0], easedT);
+      const gBot = Phaser.Math.Linear(startBottom[1], targetBottom[1], easedT);
+      const bBot = Phaser.Math.Linear(startBottom[2], targetBottom[2], easedT);
+
+      this.setGradient([rTop, gTop, bTop], [rBot, gBot, bBot]);
 
       if (t < 1) {
         requestAnimationFrame(step);
