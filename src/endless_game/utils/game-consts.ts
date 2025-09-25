@@ -16,6 +16,8 @@ export const JUNK_PART_SPRITES = ['nut', 'bolt', 'spring', 'gear', 'ramstick', '
 
 export const CAM_SCROLL_SPEED = 120;
 
+export const ENEMY_SPAWN_INTERVAL = 5000;
+
 export const ZONE_CONFIG = [
   {
     limit: 5000,

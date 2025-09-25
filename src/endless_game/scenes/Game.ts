@@ -50,13 +50,15 @@ export class Game extends Scene {
 
     EventBus.emit(EventTypes.SCENE_READY, this);
     EventBus.on(EventTypes.PLAYER_LANDED, () => this.resetSession());
-    EventBus.on(EventTypes.PLAYER_ZONE_CHANGED, this.updateBackgroundColor, this);
+    EventBus.on(EventTypes.ZONE_CHANGED, this.updateBackgroundColor, this);
   }
 
   update(delta: number) {
     this.player.update(this.pointer);
     this.playerHeightTracker.update(this.player.y);
     this.camera.scrollY -= CAM_SCROLL_SPEED * (delta / 1000);
+    // Send Player X to registry to be used in the HUDScene
+    this.registry.set('playerX', this.player.x);
   }
 
   setupBackgroundShader() {
@@ -130,6 +132,6 @@ export class Game extends Scene {
   shutdown() {
     EventBus.off(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
     EventBus.off(EventTypes.SCORE_RESET, this.handleScoreReset, this);
-    EventBus.off(EventTypes.PLAYER_ZONE_CHANGED, this.updateBackgroundColor, this);
+    EventBus.off(EventTypes.ZONE_CHANGED, this.updateBackgroundColor, this);
   }
 }
