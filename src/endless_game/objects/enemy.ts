@@ -19,7 +19,9 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     this.setScale(SCALE);
     (this.body as Phaser.Physics.Arcade.Body).allowGravity = false;
+  }
 
+  public create(): void {
     const { targetX, targetY } = this.getTargetPosition();
     this.startMovement(targetX, targetY);
   }
