@@ -8,5 +8,6 @@ export const EventTypes = {
   SCORE_UPDATED: 'score-updated',
   ZONE_CHANGED: 'zone-changed',
   SPAWN_ZONE_HIT: 'spawn-zone-hit',
+  HIGHSCORE_UPDATED: 'update-hiscore',
 };
 

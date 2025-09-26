@@ -109,6 +109,12 @@ export class Game extends Scene {
   }
 
   handleScoreReset() {
+    const prevHighScore = this.registry.get('highscore') || 0;
+    if (this.score > prevHighScore) {
+      this.registry.set('highscore', this.score);
+      EventBus.emit(EventTypes.HIGHSCORE_UPDATED, this.score);
+    }
+
     this.score = 0;
     EventBus.emit(EventTypes.SCORE_UPDATED, this.score);
   }
