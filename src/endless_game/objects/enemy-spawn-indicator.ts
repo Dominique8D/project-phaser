@@ -1,4 +1,5 @@
 import { Enemy } from './enemy';
+import { Player } from './player';
 
 const MARGIN_RATIO = 0.1;
 const MAX_MOVE_RATIO = 0.4;
@@ -12,25 +13,35 @@ export class EnemySpawnIndicator {
   scene: Phaser.Scene;
   image: Phaser.GameObjects.Image;
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
-    this.scene = scene;
-    this.image = scene.add.image(x, y, 'tst_fall').setScale(INDICATOR_SCALE);
+  constructor(
+    hudScene: Phaser.Scene,
+    x: number,
+    y: number,
+    gameScene: Phaser.Scene,
+    player: Player,
+  ) {
+    this.scene = hudScene;
+    this.image = hudScene.add.image(x, y, 'tst_fall').setScale(INDICATOR_SCALE);
 
     const targetX = this.getTargetX(x);
 
-    scene.tweens.add({
+    hudScene.tweens.add({
       targets: this.image,
       x: targetX,
       duration: SPAWN_TIME,
       ease: 'Sine.easeInOut',
       onComplete: () => {
-        new Enemy(this.scene, this.image.x, this.image.y - ENEMY_OFFSET_Y);
+        const gameCam = gameScene.cameras.main;
+        const worldX = this.image.x + gameCam.scrollX;
+        const worldY = this.image.y + gameCam.scrollY;
+
+        new Enemy(gameScene, worldX, worldY - ENEMY_OFFSET_Y, player);
         this.image.destroy();
       },
     });
   }
 
-  private getTargetX(x: number): number {
+  getTargetX(x: number): number {
     const camera = this.scene.cameras.main;
     const screenWidth = camera.width;
     const scrollX = camera.scrollX;

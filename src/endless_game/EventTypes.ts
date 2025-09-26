@@ -3,6 +3,7 @@ export const EventTypes = {
   UPDATE_TRANSLATIONS: 'update-translations',
   PLAYER_LANDED: 'player-landed',
   SCORE_INCREASE: 'score-increase',
+  SCORE_DECREASE: 'score-decrease',
   SCORE_RESET: 'score-reset',
   SCORE_UPDATED: 'score-updated',
   ZONE_CHANGED: 'zone-changed',

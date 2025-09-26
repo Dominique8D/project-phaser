@@ -1,3 +1,7 @@
+import { EventBus } from '../EventBus';
+import { EventTypes } from '../EventTypes';
+import { Player } from './player';
+
 const SCALE = 5;
 const MIN_DURATION = 1500;
 const MAX_DURATION = 3000;
@@ -10,7 +14,7 @@ const DESTROY_BUFFER_MULTIPLIER = 1.5;
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
   sceneRef: Phaser.Scene;
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: Phaser.Scene, x: number, y: number, player: Player) {
     super(scene, x, y, 'tst_jmp');
     this.sceneRef = scene;
 
@@ -22,9 +26,16 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     const { targetX, targetY } = this.getTargetPosition();
     this.startMovement(targetX, targetY);
+
+    // Handle player collision
+    scene.physics.add.overlap(this, player, () => {
+      player.dampenVerticalMovement();
+      EventBus.emit(EventTypes.SCORE_DECREASE, 1);
+      this.destroy();
+    });
   }
 
-  private getTargetPosition(): { targetX: number; targetY: number } {
+  getTargetPosition(): { targetX: number; targetY: number } {
     const camera = this.sceneRef.cameras.main;
     const screenWidth = camera.width;
     const screenHeight = camera.height;
@@ -54,7 +65,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     return { targetX, targetY };
   }
 
-  private startMovement(targetX: number, targetY: number): void {
+  startMovement(targetX: number, targetY: number): void {
     this.sceneRef.tweens.add({
       targets: this,
       x: targetX,
@@ -65,7 +76,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  private checkOffscreen(): void {
+  checkOffscreen(): void {
     const cam = this.sceneRef.cameras.main;
     const buffer = this.width * DESTROY_BUFFER_MULTIPLIER;
 

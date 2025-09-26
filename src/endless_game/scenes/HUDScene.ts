@@ -1,6 +1,7 @@
 import { EventBus } from '../EventBus';
 import { EventTypes } from '../EventTypes';
 import { EnemySpawnIndicator } from '../objects/enemy-spawn-indicator';
+import { Game } from './Game';
 
 export class HUDScene extends Phaser.Scene {
   scoreText!: Phaser.GameObjects.Text;
@@ -20,14 +21,18 @@ export class HUDScene extends Phaser.Scene {
     EventBus.on(EventTypes.SPAWN_ZONE_HIT, this.createEnemySpawnIndicator, this);
   }
 
-  private updateScoreDisplay(newScore: number) {
+  updateScoreDisplay(newScore: number) {
     this.scoreText.setText(`${newScore}`);
   }
 
-  private createEnemySpawnIndicator() {
+  createEnemySpawnIndicator() {
     const topY = 30;
     const playerX = this.registry.get('playerX');
-    new EnemySpawnIndicator(this, playerX, topY);
+
+    const gameScene = this.scene.get('MainGame') as Game;
+    const player = gameScene.player;
+
+    new EnemySpawnIndicator(this, playerX, topY, gameScene, player);
   }
 
   shutdown() {

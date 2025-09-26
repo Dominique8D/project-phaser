@@ -3,13 +3,13 @@ import { EventTypes } from '../EventTypes';
 import { EventBus } from '../EventBus';
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
-  private readonly jumpPower: number = 600;
-  private readonly maxFallSpeed: number = 2000;
-  private bodyRef: Phaser.Physics.Arcade.Body;
-  private hasTouchedGround: boolean = false;
-  private hasLanded: boolean = false;
-  private leftBound: number;
-  private rightBound: number;
+  readonly jumpPower: number = 600;
+  readonly maxFallSpeed: number = 2000;
+  bodyRef: Phaser.Physics.Arcade.Body;
+  hasTouchedGround: boolean = false;
+  hasLanded: boolean = false;
+  leftBound: number;
+  rightBound: number;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
@@ -53,7 +53,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  public updateLandedState() {
+  public dampenVerticalMovement(factor: number = 0.5) {
+    const currentY = this.bodyRef.velocity.y;
+    this.bodyRef.setVelocityY(currentY * factor);
+  }
+
+  updateLandedState() {
     const touchingGround = this.bodyRef.blocked.down;
     const verticalVelocity = Math.abs(this.bodyRef.velocity.y);
     const landingVelocityThreshold = 5;
@@ -73,7 +78,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  public isLanded(): boolean {
+  isLanded(): boolean {
     return this.hasLanded;
   }
 }

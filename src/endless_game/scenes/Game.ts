@@ -95,10 +95,16 @@ export class Game extends Scene {
     this.score = 0;
     EventBus.on(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
     EventBus.on(EventTypes.SCORE_RESET, this.handleScoreReset, this);
+    EventBus.on(EventTypes.SCORE_DECREASE, this.handleScoreDecrease, this);
   }
 
   handleScoreIncrease(increase: number) {
     this.score += increase;
+    EventBus.emit(EventTypes.SCORE_UPDATED, this.score);
+  }
+
+  handleScoreDecrease(decrease: number) {
+    this.score = Math.max(0, this.score - decrease);
     EventBus.emit(EventTypes.SCORE_UPDATED, this.score);
   }
 
@@ -131,6 +137,7 @@ export class Game extends Scene {
 
   shutdown() {
     EventBus.off(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
+    EventBus.off(EventTypes.SCORE_DECREASE, this.handleScoreDecrease, this);
     EventBus.off(EventTypes.SCORE_RESET, this.handleScoreReset, this);
     EventBus.off(EventTypes.ZONE_CHANGED, this.updateBackgroundColor, this);
   }
