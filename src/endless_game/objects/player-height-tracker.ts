@@ -1,15 +1,17 @@
 import { EventBus } from '../EventBus';
 import { EventTypes } from '../EventTypes';
-import { ENEMY_SPAWN_INTERVAL, WORLD_HEIGHT, ZONE_CONFIG } from '../utils/game-consts';
+import { WORLD_HEIGHT, ZONE_CONFIG } from '../utils/game-consts';
 
 export class PlayerHeightTracker {
   lastY: number;
   lastZone: number = -1;
-  usedSpawnPoints: Set<number> = new Set();
+  usedSpawnPoints: Set<string> = new Set();
 
   constructor(initialY: number) {
     this.lastY = initialY;
     this.lastZone = this.getZone(initialY);
+
+    EventBus.on(EventTypes.PLAYER_LANDED, this.resetSpawnPoints, this);
   }
 
   update(currentY: number): void {
@@ -21,22 +23,23 @@ export class PlayerHeightTracker {
       EventBus.emit(EventTypes.ZONE_CHANGED, newZone);
     }
 
-    this.checkSpawnPoint(currentY);
+    this.checkSpawnPoint(currentY, newZone);
   }
 
-  private checkSpawnPoint(y: number) {
+  private checkSpawnPoint(y: number, zone: number) {
+    const interval = ZONE_CONFIG[zone]?.enemySpawnInterval ?? 10000;
     const relativeY = this.getRelativeY(y);
     const roundedY = Math.round(relativeY);
 
     if (roundedY === 0) return;
 
     const tolerance = 5;
-    const nearestSpawnY = Math.round(roundedY / ENEMY_SPAWN_INTERVAL) * ENEMY_SPAWN_INTERVAL;
+    const nearestSpawnY = Math.round(roundedY / interval) * interval;
     const isCloseEnough = Math.abs(roundedY - nearestSpawnY) <= tolerance;
 
-    if (isCloseEnough && !this.usedSpawnPoints.has(nearestSpawnY)) {
-      this.usedSpawnPoints.add(nearestSpawnY);
-      const zone = this.getZone(y);
+    const spawnKey = `${zone}-${nearestSpawnY}`;
+    if (isCloseEnough && !this.usedSpawnPoints.has(spawnKey)) {
+      this.usedSpawnPoints.add(spawnKey);
       EventBus.emit(EventTypes.SPAWN_ZONE_HIT, zone);
     }
   }
@@ -61,6 +64,10 @@ export class PlayerHeightTracker {
       }
     }
     return ZONE_CONFIG.length - 1;
+  }
+
+  destroy(): void {
+    EventBus.off(EventTypes.PLAYER_LANDED, this.resetSpawnPoints, this);
   }
 }
 

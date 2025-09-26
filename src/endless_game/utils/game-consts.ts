@@ -16,48 +16,54 @@ export const JUNK_PART_SPRITES = ['nut', 'bolt', 'spring', 'gear', 'ramstick', '
 
 export const CAM_SCROLL_SPEED = 120;
 
-export const ENEMY_SPAWN_INTERVAL = 10000;
-
 export const ZONE_CONFIG = [
   {
     limit: 5000,
-    colorTop: [0.85, 0.95, 1.0], // Morning sky (bright blue)
-    colorBottom: [0.75, 0.85, 0.95], // Soft blue
+    colorTop: [0.85, 0.95, 1.0],
+    colorBottom: [0.75, 0.85, 0.95],
+    enemySpawnInterval: 10000,
   },
   {
     limit: 10000,
-    colorTop: [0.65, 0.85, 1.0], // Midday sky (vivid sky blue)
-    colorBottom: [0.55, 0.75, 0.95], // Gentle cyan
+    colorTop: [0.65, 0.85, 1.0],
+    colorBottom: [0.55, 0.75, 0.95],
+    enemySpawnInterval: 9000,
   },
   {
     limit: 15000,
-    colorTop: [0.7, 0.5, 0.8], // Evening sky (lavender)
-    colorBottom: [0.5, 0.3, 0.6], // Deep violet
+    colorTop: [0.7, 0.5, 0.8],
+    colorBottom: [0.5, 0.3, 0.6],
+    enemySpawnInterval: 8000,
   },
   {
     limit: 20000,
-    colorTop: [0.2, 0.3, 0.5], // Outer atmosphere (rich navy)
-    colorBottom: [0.15, 0.2, 0.35], // Dim blue
+    colorTop: [0.2, 0.3, 0.5],
+    colorBottom: [0.15, 0.2, 0.35],
+    enemySpawnInterval: 7000,
   },
   {
     limit: 25000,
-    colorTop: [0.1, 0.15, 0.25], // Deep space (cool indigo)
-    colorBottom: [0.08, 0.1, 0.2], // Midnight blue
+    colorTop: [0.1, 0.15, 0.25],
+    colorBottom: [0.08, 0.1, 0.2],
+    enemySpawnInterval: 6000,
   },
   {
     limit: 30000,
-    colorTop: [0.4, 1.0, 0.8], // Surreal zone (bright turquoise)
-    colorBottom: [0.3, 0.7, 0.6], // Aqua green
+    colorTop: [0.4, 1.0, 0.8],
+    colorBottom: [0.3, 0.7, 0.6],
+    enemySpawnInterval: 5000,
   },
   {
     limit: 35000,
-    colorTop: [0.9, 0.9, 0.95], // Moonlight (soft silver)
-    colorBottom: [0.75, 0.75, 0.8], // Pale gray
+    colorTop: [0.9, 0.9, 0.95],
+    colorBottom: [0.75, 0.75, 0.8],
+    enemySpawnInterval: 4500,
   },
   {
     limit: Infinity,
-    colorTop: [1.0, 0.7, 0.3], // Sunlight (golden orange)
-    colorBottom: [0.9, 0.5, 0.2], // Warm glow
+    colorTop: [1.0, 0.7, 0.3],
+    colorBottom: [0.9, 0.5, 0.2],
+    enemySpawnInterval: 3000,
   },
 ];
 
