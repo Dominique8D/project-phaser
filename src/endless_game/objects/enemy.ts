@@ -2,7 +2,9 @@ import { EventBus } from '../EventBus';
 import { EventTypes } from '../EventTypes';
 import { Player } from './player';
 
-const SCALE = 5;
+type EnemyDirection = 'left' | 'right';
+
+const SCALE = 1;
 const MIN_DURATION = 1500;
 const MAX_DURATION = 3000;
 const EDGE_MARGIN_RATIO = 0.2;
@@ -15,7 +17,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
   sceneRef: Phaser.Scene;
 
   constructor(scene: Phaser.Scene, x: number, y: number, player: Player) {
-    super(scene, x, y, 'tst_jmp');
+    super(scene, x, y, 'enemy');
     this.sceneRef = scene;
 
     scene.add.existing(this);
@@ -24,7 +26,8 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.setScale(SCALE);
     (this.body as Phaser.Physics.Arcade.Body).allowGravity = false;
 
-    const { targetX, targetY } = this.getTargetPosition();
+    const { targetX, targetY, direction } = this.getTargetPosition();
+    this.setFlipX(direction === 'left');
     this.startMovement(targetX, targetY);
 
     // Handle player collision
@@ -35,7 +38,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  getTargetPosition(): { targetX: number; targetY: number } {
+  getTargetPosition(): { targetX: number; targetY: number; direction: EnemyDirection } {
     const camera = this.sceneRef.cameras.main;
     const screenWidth = camera.width;
     const screenHeight = camera.height;
@@ -46,7 +49,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     const distanceToLeft = this.x - scrollX;
     const distanceToRight = scrollX + screenWidth - this.x;
 
-    let direction: 'left' | 'right';
+    let direction: EnemyDirection;
     if (distanceToLeft < margin) {
       direction = 'right';
     } else if (distanceToRight < margin) {
@@ -62,7 +65,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     const maxY = scrollY + screenHeight + screenHeight * MAX_Y_OFFSET_RATIO;
     const targetY = Phaser.Math.Between(minY, maxY);
 
-    return { targetX, targetY };
+    return { targetX, targetY, direction };
   }
 
   startMovement(targetX: number, targetY: number): void {

@@ -27,6 +27,10 @@ export class Game extends Scene {
       'assets/endless/obj-pack-texture.json',
     );
     this.load.glsl('bgShader', 'assets/endless/shaders/background.frag');
+    this.load.image('enemy', 'assets/endless/enemyR.png');
+    this.load.image('player_move', 'assets/endless/moveR.png');
+    this.load.image('player_fall', 'assets/endless/fallR.png');
+    this.load.image('player_plummet', 'assets/endless/plummetR.png');
   }
 
   create() {
@@ -130,8 +134,8 @@ export class Game extends Scene {
     const playerStartX = screenWidth / 2;
     const playerStartY = WORLD_HEIGHT;
 
-    this.player = new Player(this, playerStartX, playerStartY, 'tst_idle');
-    this.player.setScale(5);
+    this.player = new Player(this, playerStartX, playerStartY, 'player_move');
+    this.player.setScale(2);
 
     this.playerHeightTracker = new PlayerHeightTracker(this.player.y);
   }
