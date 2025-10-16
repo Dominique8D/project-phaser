@@ -6,6 +6,7 @@ import { EventTypes } from '../EventTypes';
 import { CAM_SCROLL_SPEED, WORLD_HEIGHT, ZONE_CONFIG } from '../utils/game-consts';
 import { PlayerHeightTracker } from '../objects/player-height-tracker';
 import { BackgroundPipeline } from '../objects/background-pipeline';
+import { getAssetPath } from '../../utils/phaser-asset-loader';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -21,16 +22,27 @@ export class Game extends Scene {
   }
 
   preload() {
+    // Atlas
     this.load.atlas(
       'objects',
-      'assets/endless/obj-pack-texture.png',
-      'assets/endless/obj-pack-texture.json',
+      getAssetPath('endless/obj-pack-texture.png'),
+      getAssetPath('endless/obj-pack-texture.json'),
     );
-    this.load.glsl('bgShader', 'assets/endless/shaders/background.frag');
-    this.load.image('enemy', 'assets/endless/enemyR.png');
-    this.load.image('player_move', 'assets/endless/moveR.png');
-    this.load.image('player_fall', 'assets/endless/fallR.png');
-    this.load.image('player_plummet', 'assets/endless/plummetR.png');
+
+    // Shader
+    this.load.glsl('bgShader', getAssetPath('endless/shaders/background.frag'));
+
+    // Images
+    const images = {
+      enemy: 'enemyR.png',
+      player_move: 'moveR.png',
+      player_fall: 'fallR.png',
+      player_plummet: 'plummetR.png',
+    };
+
+    Object.entries(images).forEach(([key, file]) => {
+      this.load.image(key, getAssetPath(`endless/${file}`));
+    });
   }
 
   create() {

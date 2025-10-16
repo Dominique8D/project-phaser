@@ -1,50 +1,37 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
+import { Stack, Typography, Link, useTheme, useMediaQuery } from '@mui/material';
+import { GAME_ROUTES } from '../config/game-config';
 
-export const TEST_GAME = 'test_game';
-export const ENDLESS_GAME = 'endless_game';
-
-const GAME_OPTIONS = [TEST_GAME, ENDLESS_GAME];
-
-type GameSelectorProps = {
-  currentGame: string | null;
-  setCurrentGame: (value: string | null) => void;
-};
-
-const GameSelector: React.FC<GameSelectorProps> = ({ currentGame, setCurrentGame }) => {
-  const radioName = 'game-select';
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentGame(event.target.value);
-  };
+const GameSelector: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Stack
-      width={1024}
-      height={768}
       sx={{
-        background: 'linear-gradient(135deg,rgba(0, 102, 255, 0.24), #ffffff)',
+        height: '100vh',
+        width: '100%',
+        padding: 2,
+        background: 'linear-gradient(135deg, rgba(0, 102, 255, 0.24), #ffffff)',
         justifyContent: 'center',
         alignItems: 'center',
+        boxSizing: 'border-box',
       }}
+      spacing={2}
     >
-      <FormControl required>
-        <FormLabel id='game-select-label'>Game Select</FormLabel>
-        <RadioGroup
-          aria-labelledby='game-select-label'
-          name={radioName}
-          value={currentGame ?? ''}
-          onChange={handleChange}
-        >
-          {GAME_OPTIONS.map((option) => (
-            <FormControlLabel
-              key={option}
-              value={option}
-              control={<Radio />}
-              label={option.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
-            />
-          ))}
-        </RadioGroup>
-      </FormControl>
+      <Typography variant='h6'>Game Select</Typography>
+
+      <Stack
+        direction={isMobile ? 'column' : 'row'}
+        spacing={2}
+        alignItems='center'
+        justifyContent='center'
+      >
+        {GAME_ROUTES.map(({ label, path, value }) => (
+          <Link key={value} href={`#${path}`} underline='hover'>
+            {label}
+          </Link>
+        ))}
+      </Stack>
     </Stack>
   );
 };

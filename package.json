@@ -1,5 +1,6 @@
 {
   "name": "project-phaser-react",
+  "homepage": "https://dominique8d.github.io/project-phaser/",
   "description": "A Phaser 3 TypeScript project template that demonstrates React communication and uses Vite for bundling.",
   "version": "1.0.5",
   "repository": {
@@ -12,7 +13,6 @@
   "bugs": {
     "url": "https://github.com/phaserjs/template-react-ts/issues"
   },
-  "homepage": "https://github.com/phaserjs/template-react-ts#readme",
   "keywords": [
     "phaser",
     "phaser3",
@@ -36,7 +36,8 @@
     "@mui/icons-material": "^7.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "react-i18next": "15.5.1"
+    "react-i18next": "15.5.1",
+    "react-router-dom": "^7.9.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
