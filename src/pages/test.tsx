@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import useLangTranslation from '../custom-hooks/use-lang-translation';
-import { IRefPhaserGame, TestGame } from '../game/TestGame';
-import { MainMenu } from '../game/scenes/MainMenu';
+import { IRefPhaserGame, TestGame } from '../test_game/TestGame';
+import { MainMenu } from '../test_game/scenes/MainMenu';
 import TestGameControls from '../components/test_game/test-game-controls';
 import { Typography } from '@mui/material';
 import GameLayout from '../components/game-layout';
