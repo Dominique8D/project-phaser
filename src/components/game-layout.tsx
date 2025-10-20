@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Theme } from '@mui/material';
 import GameAppBar from '../components/game-app-bar';
 
 const APP_HEADER_HEIGHT = 64;
@@ -10,14 +10,13 @@ const EXTRA_STACK_SX = {
   width: { xs: '100%', md: 200 },
   flexGrow: { xs: 1, md: 0 },
   padding: 1,
-  backgroundColor: '#d3d3d3ff',
+  backgroundColor: 'background.paper',
   boxSizing: 'border-box',
 };
 const EXTRA_CHILD_EXAMPLE_SX = {
   flex: 1,
   borderRadius: 1,
   padding: 1,
-  background: 'linear-gradient(135deg,rgba(0, 81, 255, 1), #00c3ffff)',
 };
 
 type GameLayoutProps = {
@@ -25,6 +24,10 @@ type GameLayoutProps = {
   children: ReactNode;
   footer?: ReactNode;
 };
+
+const gradientSX = (theme: Theme) => ({
+  background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.light})`,
+});
 
 const GameLayout: React.FC<GameLayoutProps> = ({ title, children, footer }) => {
   return (
@@ -36,7 +39,12 @@ const GameLayout: React.FC<GameLayoutProps> = ({ title, children, footer }) => {
           sx={{ flexGrow: 1, width: '100%', overflow: 'hidden' }}
         >
           <Stack direction={EXTRA_STACK_DIR} spacing={EXTRA_STACK_SPACING} sx={EXTRA_STACK_SX}>
-            <Stack sx={EXTRA_CHILD_EXAMPLE_SX} />
+            <Stack
+              sx={(theme) => ({
+                ...EXTRA_CHILD_EXAMPLE_SX,
+                ...gradientSX(theme),
+              })}
+            />
           </Stack>
 
           <Stack
@@ -58,7 +66,12 @@ const GameLayout: React.FC<GameLayoutProps> = ({ title, children, footer }) => {
           </Stack>
 
           <Stack direction={EXTRA_STACK_DIR} spacing={EXTRA_STACK_SPACING} sx={EXTRA_STACK_SX}>
-            <Stack sx={EXTRA_CHILD_EXAMPLE_SX} />
+            <Stack
+              sx={(theme) => ({
+                ...EXTRA_CHILD_EXAMPLE_SX,
+                ...gradientSX(theme),
+              })}
+            />
           </Stack>
         </Stack>
 

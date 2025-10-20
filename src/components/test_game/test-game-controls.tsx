@@ -5,15 +5,15 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 type TestGameControlsProps = {
-  changeScene: () => void;
   canMoveSprite: boolean;
+  changeScene: () => void;
   moveSprite: () => void;
   addSprite: () => void;
 };
 
 const TestGameControls: React.FC<TestGameControlsProps> = ({
-  changeScene,
   canMoveSprite,
+  changeScene,
   moveSprite,
   addSprite,
 }) => {

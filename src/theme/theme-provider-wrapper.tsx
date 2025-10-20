@@ -3,7 +3,7 @@ import { useState, createContext, useContext, ReactNode } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Stack } from '@mui/material';
 import { getValidQueryParam } from '../utils/get-valid-query-param';
-import { themeOptions } from './theme-options';
+import { getThemeOptions } from './theme-options';
 import useUpdateQueryParam from '../custom-hooks/use-update-query-param';
 
 const DEFAULT_STYLING: SxProps = {
@@ -15,7 +15,7 @@ const DEFAULT_STYLING: SxProps = {
 
 export const LIGHT = 'light';
 export const DARK = 'dark';
-type MODE = typeof LIGHT | typeof DARK;
+export type MODE = typeof LIGHT | typeof DARK;
 
 const ThemeContext = createContext({ mode: DARK, toggleTheme: () => {} });
 
@@ -34,13 +34,7 @@ export const ThemeProviderWrapper: React.FC<ThemeProviderProps> = ({ children })
   const [mode, setMode] = useState<MODE>(queryMode as MODE);
   useUpdateQueryParam(PARAM_KEY, mode);
 
-  const theme = createTheme({
-    ...themeOptions,
-    palette: {
-      ...themeOptions.palette,
-      mode,
-    },
-  });
+  const theme = createTheme(getThemeOptions(mode));
 
   const toggleTheme = () => {
     setMode((prevMode) => (prevMode === LIGHT ? DARK : LIGHT));

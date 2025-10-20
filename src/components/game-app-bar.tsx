@@ -5,7 +5,7 @@ import ThemeToggleButton from '../theme/theme-toggle-button';
 import LangSelector from './lang-selector';
 
 type GameAppBarProps = {
-  title?: string;
+  title: string;
 };
 
 const GameAppBar: React.FC<GameAppBarProps> = ({ title = '' }) => {

@@ -2,7 +2,7 @@ import TestGamePage from '../pages/test';
 import EndlessGamePage from '../pages/endless';
 
 export type GameRoute = {
-  label: string;
+  tKey: string;
   value: string;
   path: string;
   component: React.FC;
@@ -10,13 +10,13 @@ export type GameRoute = {
 
 export const GAME_ROUTES: GameRoute[] = [
   {
-    label: 'Test Game',
+    tKey: 'testGame',
     value: 'test_game',
     path: '/test',
     component: TestGamePage,
   },
   {
-    label: 'Endless Game',
+    tKey: 'endlessGame',
     value: 'endless_game',
     path: '/endless',
     component: EndlessGamePage,
