@@ -8,7 +8,7 @@ import GameLayout from '../components/game-layout';
 import { IRefPhaserGame } from '../game-consts/game-interfaces';
 
 const TestGamePage = () => {
-  const { t } = useLangTranslation('common');
+  const { t } = useLangTranslation('testGame');
   const [canMoveSprite, setCanMoveSprite] = useState(true);
   const [spritePosition, setSpritePosition] = useState({ x: 0, y: 0 });
   const phaserRef = useRef<IRefPhaserGame | null>(null);

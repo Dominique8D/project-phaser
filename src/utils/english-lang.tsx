@@ -7,5 +7,11 @@ export const EnglishLang = {
     testGame: 'Testgame',
     endlessGame: 'To the moon',
   },
+  testGame: {
+    title: 'Testgame',
+  },
+  endlessGame: {
+    title: 'To the moon',
+  },
 };
 

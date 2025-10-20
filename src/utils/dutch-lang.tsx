@@ -7,5 +7,11 @@ export const DutchLang = {
     testGame: 'Testspel',
     endlessGame: 'Op naar de maan',
   },
+  testGame: {
+    title: 'Testspel',
+  },
+  endlessGame: {
+    title: 'Op naar de maan',
+  },
 };
 

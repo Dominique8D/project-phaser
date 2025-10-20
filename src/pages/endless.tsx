@@ -5,7 +5,7 @@ import GameLayout from '../components/game-layout';
 import { IRefPhaserGame } from '../game-consts/game-interfaces';
 
 const EndlessGamePage = () => {
-  const { t } = useLangTranslation('common');
+  const { t } = useLangTranslation('endlessGame');
   const phaserRef = useRef<IRefPhaserGame | null>(null);
 
   const currentScene = (scene: Phaser.Scene) => {
