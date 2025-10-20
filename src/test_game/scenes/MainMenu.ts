@@ -1,7 +1,7 @@
 import { GameObjects, Scene } from 'phaser';
 import { EventBus } from '../EventBus';
-import { EventTypes } from '../../endless_game/EventTypes';
 import { Translations } from '../../game-consts/game-interfaces';
+import { EventTypes } from '../EventTypes';
 
 export class MainMenu extends Scene {
   background: GameObjects.Image;
@@ -33,7 +33,7 @@ export class MainMenu extends Scene {
       this.title.setText(translations.title);
     });
 
-    EventBus.emit('current-scene-ready', this);
+    EventBus.emit(EventTypes.SCENE_READY, this);
   }
 
   changeScene() {

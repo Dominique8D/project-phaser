@@ -2,8 +2,8 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import StartGame from './main';
 import { EventBus } from './EventBus';
 import { Stack } from '@mui/material';
-import { EventTypes } from '../endless_game/EventTypes';
 import { IGameProps, IRefPhaserGame } from '../game-consts/game-interfaces';
+import { EventTypes } from './EventTypes';
 
 export const TestGame = forwardRef<IRefPhaserGame, IGameProps>(function PhaserGame(
   { currentActiveScene, translations },
@@ -33,7 +33,7 @@ export const TestGame = forwardRef<IRefPhaserGame, IGameProps>(function PhaserGa
   }, [ref]);
 
   useEffect(() => {
-    EventBus.on('current-scene-ready', (scene_instance: Phaser.Scene) => {
+    EventBus.on(EventTypes.SCENE_READY, (scene_instance: Phaser.Scene) => {
       if (currentActiveScene && typeof currentActiveScene === 'function') {
         currentActiveScene(scene_instance);
       }
@@ -45,7 +45,7 @@ export const TestGame = forwardRef<IRefPhaserGame, IGameProps>(function PhaserGa
       }
     });
     return () => {
-      EventBus.removeListener('current-scene-ready');
+      EventBus.removeListener(EventTypes.SCENE_READY);
     };
   }, [currentActiveScene, ref]);
 
