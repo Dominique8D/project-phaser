@@ -17,7 +17,7 @@ const EndlessGamePage = () => {
   };
 
   return (
-    <GameLayout title={gameTranslations.title} isLangSelectorDisabled>
+    <GameLayout title={gameTranslations.title}>
       <EndlessGame
         ref={phaserRef}
         currentActiveScene={currentScene}

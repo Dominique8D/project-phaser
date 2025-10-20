@@ -51,7 +51,6 @@ const TestGamePage = () => {
   return (
     <GameLayout
       title={gameTranslations.title}
-      isLangSelectorDisabled
       footer={
         <>
           <TestGameControls
