@@ -40,38 +40,6 @@ export const getThemeOptions = (mode: MODE): ThemeOptions => {
           },
         },
       },
-      MuiPaper: {
-        styleOverrides: {
-          root: {
-            backgroundImage: 'none',
-            boxShadow: isDark ? '0 0 0 1px #1f1f1f' : '0 1px 3px rgba(0,0,0,0.1)',
-          },
-        },
-      },
-      MuiLink: {
-        styleOverrides: {
-          root: {
-            color: isDark ? '#66aaff' : '#0052cc',
-            textDecoration: 'none',
-            '&:hover': {
-              textDecoration: 'underline',
-            },
-          },
-        },
-      },
-      MuiTypography: {
-        styleOverrides: {
-          root: {
-            a: {
-              color: isDark ? '#66aaff' : '#0052cc',
-              textDecoration: 'none',
-              '&:hover': {
-                textDecoration: 'underline',
-              },
-            },
-          },
-        },
-      },
     },
   };
 };

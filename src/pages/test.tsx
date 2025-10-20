@@ -51,7 +51,7 @@ const TestGamePage = () => {
   return (
     <GameLayout
       title={gameTranslations.title}
-      footer={
+      startContent={
         <>
           <TestGameControls
             changeScene={changeScene}
