@@ -14,11 +14,7 @@ const LANGUAGES = ['nl', 'gb'];
 const FLAG_SIZE = 32;
 const FLAG_SIZE_MENU = 20;
 
-type LangSelectorProps = {
-  disabled: boolean;
-};
-
-const LangSelector = ({ disabled }: LangSelectorProps) => {
+const LangSelector = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -46,7 +42,6 @@ const LangSelector = ({ disabled }: LangSelectorProps) => {
           aria-controls={open ? 'language-menu' : undefined}
           aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
-          disabled={disabled}
         >
           <Avatar sx={{ width: FLAG_SIZE, height: FLAG_SIZE }}>
             <img
@@ -55,8 +50,6 @@ const LangSelector = ({ disabled }: LangSelectorProps) => {
               style={{
                 width: '100%',
                 height: '100%',
-                filter: disabled ? 'grayscale(100%)' : 'none',
-                opacity: disabled ? 0.5 : 1,
               }}
             />
           </Avatar>

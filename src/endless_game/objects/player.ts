@@ -18,6 +18,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   leftBound: number;
   rightBound: number;
   lastPointerX: number;
+  isSceneReady: boolean = false;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
@@ -42,6 +43,17 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     scene.input.on('pointerdown', () => {
       this.jump();
     });
+
+    // Only start sending this if the scene is ready
+    EventBus.on(EventTypes.SCENE_READY, (readyScene: Phaser.Scene) => {
+      if (readyScene === scene) {
+        this.isSceneReady = true;
+      }
+    });
+
+    scene.events.once('shutdown', () => {
+      EventBus.off(EventTypes.SCENE_READY);
+    });
   }
 
   public update(pointer?: Phaser.Input.Pointer) {
@@ -51,7 +63,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       const newX = Phaser.Math.Linear(this.x, targetX, lerpFactor);
       this.setX(newX);
 
-      // Flip sprite based on the mouse
       if (targetX < this.lastPointerX) {
         this.setFlipX(true);
       } else if (targetX > this.lastPointerX) {
@@ -118,7 +129,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       this.hasTouchedGround = true;
     }
 
-    if (this.hasTouchedGround && !this.hasLanded && verticalVelocity < landingVelocityThreshold) {
+    if (
+      this.isSceneReady &&
+      this.hasTouchedGround &&
+      !this.hasLanded &&
+      verticalVelocity < landingVelocityThreshold
+    ) {
       this.hasLanded = true;
       EventBus.emit(EventTypes.PLAYER_LANDED);
     }

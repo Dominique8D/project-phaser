@@ -16,8 +16,12 @@ export function getGameWorldPamaters(scene: Scene) {
 export function generatePowerups(
   scene: Phaser.Scene,
   player: Player,
-  orbGroup: Phaser.GameObjects.Group,
+  orbGroup: Phaser.GameObjects.Group | undefined,
 ): void {
+  if (!orbGroup || !orbGroup.children || typeof orbGroup.children.size !== 'number') {
+    return;
+  }
+
   orbGroup.clear(true, true);
 
   const {
@@ -59,7 +63,6 @@ export function generatePowerups(
 
     y -= spacingY;
     i++;
-
     if (i % diffIncreaseValue === 0 && diffLevel < Math.min(maxDiff, ySpacings.length - 1)) {
       diffLevel++;
     }

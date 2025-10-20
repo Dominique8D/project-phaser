@@ -4,10 +4,10 @@ import { Translations } from '../EndlessGame';
 import { EventTypes } from '../EventTypes';
 
 export class MainMenu extends Scene {
-  background: GameObjects.Image;
-  logo: GameObjects.Image;
-  title: GameObjects.Text;
-  startButton: GameObjects.Image;
+  background!: GameObjects.Image;
+  title!: GameObjects.Text;
+  startButton!: GameObjects.Image;
+  logos: GameObjects.Image[] = [];
 
   constructor() {
     super('MainMenu');
@@ -15,26 +15,32 @@ export class MainMenu extends Scene {
 
   create() {
     this.background = this.add.image(512, 384, 'background');
-    this.logo = this.add.image(512, 300, 'logo').setDepth(100);
 
-    this.logo = this.add.image(512, 600, 'tst_fall').setDepth(100);
-    this.logo = this.add.image(522, 600, 'tst_idle').setDepth(100);
-    this.logo = this.add.image(532, 600, 'tst_jmp').setDepth(100);
-    this.logo = this.add.image(542, 600, 'tst_move').setDepth(100);
-    this.logo = this.add.image(552, 600, 'tst_plummet').setDepth(100);
-    this.logo = this.add.image(562, 600, 'tst_powerup').setDepth(100);
-    this.logo = this.add.image(572, 600, 'tst_step').setDepth(100);
+    const spriteKeys = [
+      'tst_fall',
+      'tst_idle',
+      'tst_jmp',
+      'tst_move',
+      'tst_plummet',
+      'tst_powerup',
+      'tst_step',
+    ];
+
+    spriteKeys.forEach((key, index) => {
+      const sprite = this.add.image(512 + index * 10, 600, key).setDepth(100);
+      this.logos.push(sprite);
+    });
 
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
 
-    const startButton = this.add
+    this.startButton = this.add
       .image(centerX, centerY, 'tst_powerup')
       .setDepth(100)
       .setScale(10)
       .setInteractive();
 
-    startButton.on('pointerdown', () => {
+    this.startButton.on('pointerdown', () => {
       this.scene.start('MainGame');
     });
 
@@ -51,13 +57,15 @@ export class MainMenu extends Scene {
       .setDepth(100);
 
     EventBus.on(EventTypes.UPDATE_TRANSLATIONS, (translations: Translations) => {
-      this.title.setText(translations.title);
+      if (translations.title) {
+        this.title.setText(translations.title);
+      }
+    });
+
+    this.events.once('shutdown', () => {
+      EventBus.off(EventTypes.UPDATE_TRANSLATIONS);
     });
 
     EventBus.emit(EventTypes.SCENE_READY, this);
-  }
-
-  shutdown() {
-    EventBus.off(EventTypes.UPDATE_TRANSLATIONS);
   }
 }

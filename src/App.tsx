@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <GameAppBar title={t('title')} isLangSelectorDisabled={false} />
+      <GameAppBar title={t('title')} />
       <GameSelector />
     </>
   );

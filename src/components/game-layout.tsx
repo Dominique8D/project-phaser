@@ -22,20 +22,14 @@ const EXTRA_CHILD_EXAMPLE_SX = {
 
 type GameLayoutProps = {
   title: string;
-  isLangSelectorDisabled?: boolean;
   children: ReactNode;
   footer?: ReactNode;
 };
 
-const GameLayout: React.FC<GameLayoutProps> = ({
-  title,
-  isLangSelectorDisabled = false,
-  children,
-  footer,
-}) => {
+const GameLayout: React.FC<GameLayoutProps> = ({ title, children, footer }) => {
   return (
     <>
-      <GameAppBar title={title} isLangSelectorDisabled={isLangSelectorDisabled} />
+      <GameAppBar title={title} />
       <Stack p={2} gap={2} sx={{ height: `calc(100vh - ${APP_HEADER_HEIGHT}px)` }}>
         <Stack
           direction={{ xs: 'column', md: 'row' }}

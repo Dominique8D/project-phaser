@@ -6,10 +6,9 @@ import LangSelector from './lang-selector';
 
 type GameAppBarProps = {
   title?: string;
-  isLangSelectorDisabled?: boolean;
 };
 
-const GameAppBar: React.FC<GameAppBarProps> = ({ title = '', isLangSelectorDisabled = false }) => {
+const GameAppBar: React.FC<GameAppBarProps> = ({ title = '' }) => {
   return (
     <AppBar position='sticky' color='primary'>
       <Toolbar>
@@ -26,7 +25,7 @@ const GameAppBar: React.FC<GameAppBarProps> = ({ title = '', isLangSelectorDisab
 
           <Stack direction='row' spacing={2}>
             <ThemeToggleButton />
-            <LangSelector disabled={isLangSelectorDisabled} />
+            <LangSelector />
           </Stack>
         </Stack>
       </Toolbar>

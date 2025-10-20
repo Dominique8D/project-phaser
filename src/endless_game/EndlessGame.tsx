@@ -22,7 +22,7 @@ export const EndlessGame = forwardRef<IRefEndlessGame, IProps>(function PhaserGa
   { currentActiveScene, translations },
   ref,
 ) {
-  const game = useRef<Phaser.Game | null>(null!);
+  const game = useRef<Phaser.Game | null>(null);
 
   useLayoutEffect(() => {
     if (game.current === null) {
@@ -38,16 +38,14 @@ export const EndlessGame = forwardRef<IRefEndlessGame, IProps>(function PhaserGa
     return () => {
       if (game.current) {
         game.current.destroy(true);
-        if (game.current !== null) {
-          game.current = null;
-        }
+        game.current = null;
       }
     };
   }, [ref]);
 
   useEffect(() => {
     EventBus.on(EventTypes.SCENE_READY, (scene_instance: Phaser.Scene) => {
-      if (currentActiveScene && typeof currentActiveScene === 'function') {
+      if (currentActiveScene) {
         currentActiveScene(scene_instance);
       }
 
@@ -56,17 +54,15 @@ export const EndlessGame = forwardRef<IRefEndlessGame, IProps>(function PhaserGa
       } else if (ref) {
         ref.current = { game: game.current, scene: scene_instance };
       }
+
+      // Only send when scene is ready
+      EventBus.emit(EventTypes.UPDATE_TRANSLATIONS, translations);
     });
+
     return () => {
       EventBus.removeListener(EventTypes.SCENE_READY);
     };
-  }, [currentActiveScene, ref]);
+  }, [currentActiveScene, ref, translations]);
 
-  useEffect(() => {
-    if (game.current) {
-      EventBus.emit(EventTypes.UPDATE_TRANSLATIONS, translations);
-    }
-  }, [translations]);
-
-  return <Stack id='game-container'></Stack>;
+  return <Stack id='game-container' />;
 });
