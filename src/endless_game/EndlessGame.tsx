@@ -3,22 +3,9 @@ import StartGame from './main';
 import { EventBus } from './EventBus';
 import { Stack } from '@mui/material';
 import { EventTypes } from './EventTypes';
+import { IGameProps, IRefPhaserGame } from '../game-consts/game-interfaces';
 
-export interface Translations {
-  [key: string]: string;
-}
-
-export interface IRefEndlessGame {
-  game: Phaser.Game | null;
-  scene: Phaser.Scene | null;
-}
-
-interface IProps {
-  currentActiveScene?: (scene_instance: Phaser.Scene) => void;
-  translations: Translations;
-}
-
-export const EndlessGame = forwardRef<IRefEndlessGame, IProps>(function PhaserGame(
+export const EndlessGame = forwardRef<IRefPhaserGame, IGameProps>(function PhaserGame(
   { currentActiveScene, translations },
   ref,
 ) {

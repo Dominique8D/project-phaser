@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import useLangTranslation from '../custom-hooks/use-lang-translation';
-import { IRefPhaserGame } from '../test_game/TestGame';
 import { EndlessGame } from '../endless_game/EndlessGame';
 import GameLayout from '../components/game-layout';
+import { IRefPhaserGame } from '../game-consts/game-interfaces';
 
 const EndlessGamePage = () => {
   const { t } = useLangTranslation('common');

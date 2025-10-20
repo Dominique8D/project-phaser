@@ -1,7 +1,7 @@
 import { GameObjects, Scene } from 'phaser';
 import { EventBus } from '../EventBus';
-import { Translations } from '../TestGame';
 import { EventTypes } from '../../endless_game/EventTypes';
+import { Translations } from '../../game-consts/game-interfaces';
 
 export class MainMenu extends Scene {
   background: GameObjects.Image;
