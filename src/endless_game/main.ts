@@ -5,12 +5,13 @@ import { MainMenu } from './scenes/MainMenu';
 import { HUDScene } from './scenes/HUDScene';
 import { AUTO, Game } from 'phaser';
 import { Preloader } from './scenes/Preloader';
+import { GAME_CONTAINER_ID } from '../game-consts/game-consts';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: AUTO,
   width: 1024,
   height: 768,
-  parent: 'game-container',
+  parent: GAME_CONTAINER_ID,
   backgroundColor: '#028af8',
   scene: [Boot, Preloader, MainMenu, MainGame, GameOver, HUDScene],
   physics: {

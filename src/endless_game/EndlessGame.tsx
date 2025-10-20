@@ -4,6 +4,7 @@ import { EventBus } from './EventBus';
 import { Stack } from '@mui/material';
 import { EventTypes } from './EventTypes';
 import { IGameProps, IRefPhaserGame } from '../game-consts/game-interfaces';
+import { GAME_CONTAINER_ID } from '../game-consts/game-consts';
 
 export const EndlessGame = forwardRef<IRefPhaserGame, IGameProps>(function PhaserGame(
   { currentActiveScene, translations },
@@ -13,7 +14,7 @@ export const EndlessGame = forwardRef<IRefPhaserGame, IGameProps>(function Phase
 
   useLayoutEffect(() => {
     if (game.current === null) {
-      game.current = StartGame('game-container');
+      game.current = StartGame(GAME_CONTAINER_ID);
 
       if (typeof ref === 'function') {
         ref({ game: game.current, scene: null });
@@ -51,5 +52,5 @@ export const EndlessGame = forwardRef<IRefPhaserGame, IGameProps>(function Phase
     };
   }, [currentActiveScene, ref, translations]);
 
-  return <Stack id='game-container' />;
+  return <Stack id={GAME_CONTAINER_ID} />;
 });

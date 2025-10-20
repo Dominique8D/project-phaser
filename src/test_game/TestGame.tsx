@@ -4,6 +4,7 @@ import { EventBus } from './EventBus';
 import { Stack } from '@mui/material';
 import { IGameProps, IRefPhaserGame } from '../game-consts/game-interfaces';
 import { EventTypes } from './EventTypes';
+import { GAME_CONTAINER_ID } from '../game-consts/game-consts';
 
 export const TestGame = forwardRef<IRefPhaserGame, IGameProps>(function PhaserGame(
   { currentActiveScene, translations },
@@ -13,7 +14,7 @@ export const TestGame = forwardRef<IRefPhaserGame, IGameProps>(function PhaserGa
 
   useLayoutEffect(() => {
     if (game.current === null) {
-      game.current = StartGame('game-container');
+      game.current = StartGame(GAME_CONTAINER_ID);
 
       if (typeof ref === 'function') {
         ref({ game: game.current, scene: null });
@@ -55,5 +56,5 @@ export const TestGame = forwardRef<IRefPhaserGame, IGameProps>(function PhaserGa
     }
   }, [translations]);
 
-  return <Stack id='game-container'></Stack>;
+  return <Stack id={GAME_CONTAINER_ID}></Stack>;
 });
