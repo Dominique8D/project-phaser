@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import useLangTranslation from '../custom-hooks/use-lang-translation';
-import { IRefPhaserGame, PhaserGame } from '../game/PhaserGame';
+import { IRefPhaserGame, TestGame } from '../game/TestGame';
 import { MainMenu } from '../game/scenes/MainMenu';
 import TestGameControls from '../components/test_game/test-game-controls';
 import { Typography } from '@mui/material';
@@ -64,13 +64,10 @@ const TestGamePage = () => {
         </>
       }
     >
-      <PhaserGame
-        ref={phaserRef}
-        currentActiveScene={currentScene}
-        translations={gameTranslations}
-      />
+      <TestGame ref={phaserRef} currentActiveScene={currentScene} translations={gameTranslations} />
     </GameLayout>
   );
 };
 
 export default TestGamePage;
+

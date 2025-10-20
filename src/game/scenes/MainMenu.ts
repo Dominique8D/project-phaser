@@ -1,6 +1,6 @@
 import { GameObjects, Scene } from 'phaser';
 import { EventBus } from '../EventBus';
-import { Translations } from '../PhaserGame';
+import { Translations } from '../TestGame';
 import { EventTypes } from '../../endless_game/EventTypes';
 
 export class MainMenu extends Scene {

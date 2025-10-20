@@ -18,7 +18,7 @@ interface IProps {
   translations: Translations;
 }
 
-export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame(
+export const TestGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame(
   { currentActiveScene, translations },
   ref,
 ) {
