@@ -4,10 +4,10 @@ import { Translations } from '../../game-consts/game-interfaces';
 import { EventTypes } from '../EventTypes';
 
 export class MainMenu extends Scene {
-  background: GameObjects.Image;
-  logo: GameObjects.Image;
-  title: GameObjects.Text;
-  logoTween: Phaser.Tweens.Tween | null;
+  background!: GameObjects.Image;
+  logo!: GameObjects.Image;
+  title!: GameObjects.Text;
+  logoTween: Phaser.Tweens.Tween | null = null;
 
   constructor() {
     super('MainMenu');
@@ -30,7 +30,15 @@ export class MainMenu extends Scene {
       .setDepth(100);
 
     EventBus.on(EventTypes.UPDATE_TRANSLATIONS, (translations: Translations) => {
-      this.title.setText(translations.title);
+      const canUpdateText =
+        translations.title && this.title && this.title.texture && this.title.texture.source[0];
+      if (canUpdateText) {
+        this.title.setText(translations.title);
+      }
+    });
+
+    this.events.once('shutdown', () => {
+      EventBus.off(EventTypes.UPDATE_TRANSLATIONS);
     });
 
     EventBus.emit(EventTypes.SCENE_READY, this);
@@ -59,18 +67,12 @@ export class MainMenu extends Scene {
         yoyo: true,
         repeat: -1,
         onUpdate: () => {
-          if (vueCallback) {
-            vueCallback({
-              x: Math.floor(this.logo.x),
-              y: Math.floor(this.logo.y),
-            });
-          }
+          vueCallback?.({
+            x: Math.floor(this.logo.x),
+            y: Math.floor(this.logo.y),
+          });
         },
       });
     }
-  }
-
-  shutdown() {
-    EventBus.off(EventTypes.UPDATE_TRANSLATIONS);
   }
 }
