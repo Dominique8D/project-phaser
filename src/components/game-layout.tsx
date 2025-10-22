@@ -5,20 +5,20 @@ import GameAppBar from '../components/game-app-bar';
 const APP_HEADER_HEIGHT = 64;
 
 const SIDE_PANEL_SX = {
-  width: { xs: '100%', md: 200 },
-  flexGrow: { xs: 1, md: 0 },
   padding: 1,
-  backgroundColor: 'background.paper',
+  flexGrow: 1,
   boxSizing: 'border-box',
+  width: { xs: '100%', md: 200 },
+  backgroundColor: 'background.paper',
 };
 
 const MAIN_CANVAS_SX = {
-  flexGrow: 2,
-  justifyContent: 'center',
+  padding: 1,
+  flexGrow: 1,
   alignItems: 'center',
+  justifyContent: 'center',
   backgroundColor: 'background.paper',
   overflow: 'hidden',
-  padding: 1,
   '& canvas': {
     width: '100% !important',
     height: 'auto !important',
@@ -46,9 +46,9 @@ type GameLayoutProps = {
 
 const GameLayout: React.FC<GameLayoutProps> = ({ title, children, startContent, endContent }) => {
   return (
-    <>
+    <Stack height='100%' width='100%'>
       <GameAppBar title={title} />
-      <Stack p={2} gap={2} sx={{ height: `calc(100vh - ${APP_HEADER_HEIGHT}px)` }}>
+      <Stack height={`calc(100vh - ${APP_HEADER_HEIGHT}px)`}>
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           sx={{ flexGrow: 1, width: '100%', overflow: 'hidden' }}
@@ -64,7 +64,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({ title, children, startContent, 
           </Stack>
         </Stack>
       </Stack>
-    </>
+    </Stack>
   );
 };
 
