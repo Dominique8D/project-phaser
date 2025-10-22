@@ -3,7 +3,7 @@ import { Scene } from 'phaser';
 import { Player } from '../objects/player';
 import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utils';
 import { EventTypes } from '../EventTypes';
-import { CAM_SCROLL_SPEED, WORLD_HEIGHT, ZONE_CONFIG } from '../utils/game-consts';
+import { CAM_SCROLL_SPEED, MAX_SCORE, WORLD_HEIGHT, ZONE_CONFIG } from '../utils/game-consts';
 import { PlayerHeightTracker } from '../objects/player-height-tracker';
 import { BackgroundPipeline } from '../objects/background-pipeline';
 import { getAssetPath } from '../../utils/phaser-asset-loader';
@@ -98,7 +98,7 @@ export class Game extends Scene {
   }
 
   handleScoreIncrease(increase: number) {
-    this.score += increase;
+    this.score = Math.min(this.score + increase, MAX_SCORE);
     EventBus.emit(EventTypes.SCORE_UPDATED, this.score);
   }
 

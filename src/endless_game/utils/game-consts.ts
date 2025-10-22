@@ -1,3 +1,8 @@
+export const WORLD_HEIGHT = 100000;
+
+export const TOTAL_DIGITS = 3;
+export const MAX_SCORE = parseInt('9'.repeat(TOTAL_DIGITS));
+
 export const POWERUP_CONFIG = {
   ySpacings: [100, 150, 200, 250],
   marginX: 100,
@@ -9,8 +14,6 @@ export const POWERUP_CONFIG = {
   maxDiff: 4,
   diffIncreaseValue: 100,
 };
-
-export const WORLD_HEIGHT = 100000;
 
 export const JUNK_PART_SPRITES = ['nut', 'bolt', 'spring', 'gear', 'ramstick', 'pcb'];
 

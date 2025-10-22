@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import EndlessScoreUI from './score-component';
+import ScoreComponent from './score-component/score-component';
 
 type EndlessStartContentProps = {
   scene: Phaser.Scene | null;
@@ -7,8 +7,8 @@ type EndlessStartContentProps = {
 
 const EndlessStartContent = ({ scene }: EndlessStartContentProps) => {
   return (
-    <Stack height='100%' width='100%'>
-      <EndlessScoreUI scene={scene} />
+    <Stack height='100%' width='100%' justifyContent='start' alignItems='center'>
+      <ScoreComponent scene={scene} />
     </Stack>
   );
 };
