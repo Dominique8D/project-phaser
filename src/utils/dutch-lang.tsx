@@ -12,6 +12,8 @@ export const DutchLang = {
   },
   endlessGame: {
     title: 'Op naar de maan',
+    hiScore: 'Hoogste score:',
+    currentScore: 'Huidige score:',
   },
 };
 

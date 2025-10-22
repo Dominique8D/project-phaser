@@ -12,6 +12,8 @@ export const EnglishLang = {
   },
   endlessGame: {
     title: 'To the moon',
+    hiScore: 'Hi-score:',
+    currentScore: 'Current score:',
   },
 };
 

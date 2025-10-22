@@ -46,7 +46,7 @@ type GameLayoutProps = {
 
 const GameLayout: React.FC<GameLayoutProps> = ({ title, children, startContent, endContent }) => {
   return (
-    <Stack height='100%' width='100%'>
+    <Stack height='100vh' width='100vw'>
       <GameAppBar title={title} />
       <Stack height={`calc(100vh - ${APP_HEADER_HEIGHT}px)`}>
         <Stack

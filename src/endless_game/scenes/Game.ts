@@ -1,12 +1,14 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { Player } from '../objects/player';
-import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utilts';
+import { generatePowerups, getGameWorldPamaters, setupDebugLines } from '../utils/game-utils';
 import { EventTypes } from '../EventTypes';
 import { CAM_SCROLL_SPEED, WORLD_HEIGHT, ZONE_CONFIG } from '../utils/game-consts';
 import { PlayerHeightTracker } from '../objects/player-height-tracker';
 import { BackgroundPipeline } from '../objects/background-pipeline';
 import { getAssetPath } from '../../utils/phaser-asset-loader';
+import { HUD_SCENE_ID, MAIN_GAME_ID } from '../../game-consts/game-consts';
+import { REG_HIGHSCORE, REG_PLAYER_X } from '../utils/registy-keys';
 
 export class Game extends Scene {
   camera!: Phaser.Cameras.Scene2D.Camera;
@@ -18,7 +20,7 @@ export class Game extends Scene {
   bgPipeline!: BackgroundPipeline;
 
   constructor() {
-    super('MainGame');
+    super(MAIN_GAME_ID);
   }
 
   preload() {
@@ -43,7 +45,7 @@ export class Game extends Scene {
   }
 
   create() {
-    this.scene.launch('HUDScene');
+    this.scene.launch(HUD_SCENE_ID);
     this.setupScore();
 
     const { screenWidth, screenHeight } = getGameWorldPamaters(this);
@@ -81,7 +83,7 @@ export class Game extends Scene {
     this.player.update(this.pointer);
     this.playerHeightTracker.update(this.player.y);
     this.camera.scrollY -= CAM_SCROLL_SPEED * (delta / 1000);
-    this.registry.set('playerX', this.player.x);
+    this.registry.set(REG_PLAYER_X, this.player.x);
   }
 
   setupGameWorld(screenWidth: number) {
@@ -106,9 +108,9 @@ export class Game extends Scene {
   }
 
   handleScoreReset() {
-    const prevHighScore = this.registry.get('highscore') || 0;
+    const prevHighScore = this.registry.get(REG_HIGHSCORE) || 0;
     if (this.score > prevHighScore) {
-      this.registry.set('highscore', this.score);
+      this.registry.set(REG_HIGHSCORE, this.score);
       EventBus.emit(EventTypes.HIGHSCORE_UPDATED, this.score);
     }
 

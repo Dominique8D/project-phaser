@@ -2,6 +2,7 @@ import { GameObjects, Scene } from 'phaser';
 import { EventBus } from '../EventBus';
 import { EventTypes } from '../EventTypes';
 import { Translations } from '../../game-consts/game-interfaces';
+import { MAIN_GAME_ID } from '../../game-consts/game-consts';
 
 export class MainMenu extends Scene {
   background!: GameObjects.Image;
@@ -41,7 +42,7 @@ export class MainMenu extends Scene {
       .setInteractive();
 
     this.startButton.on('pointerdown', () => {
-      this.scene.start('MainGame');
+      this.scene.start(MAIN_GAME_ID);
     });
 
     this.title = this.add
