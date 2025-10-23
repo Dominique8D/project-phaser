@@ -6,7 +6,7 @@ export const getThemeOptions = (mode: MODE): ThemeOptions => {
 
   return {
     typography: {
-      fontFamily: ['Orbitron', 'Arial', 'sans-serif'].join(','),
+      fontFamily: ['Orbitron', 'Audiowide', 'Unbounded', 'Arial', 'sans-serif'].join(','),
     },
     palette: {
       mode,

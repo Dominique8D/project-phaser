@@ -8,7 +8,7 @@ type GameAppBarProps = {
   title: string;
 };
 
-const GameAppBar: React.FC<GameAppBarProps> = ({ title = '' }) => {
+const GameAppBar: React.FC<GameAppBarProps> = ({ title }) => {
   return (
     <AppBar position='sticky' color='primary'>
       <Toolbar>
@@ -18,7 +18,7 @@ const GameAppBar: React.FC<GameAppBarProps> = ({ title = '' }) => {
           </IconButton>
 
           <Stack flex={1} alignItems='center'>
-            <Typography variant='h6' component='div'>
+            <Typography variant='h6' component='div' fontWeight='bold'>
               {title}
             </Typography>
           </Stack>

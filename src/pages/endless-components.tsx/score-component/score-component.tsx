@@ -10,11 +10,10 @@ import ScoreRow from './score-row';
 const ANIM_TIME_OUT = 300;
 
 const SCORE_COMP_SX = {
-  flexGrow: 1,
+  gap: 2,
+  padding: 1,
   alignItems: 'stretch',
   justifyContent: 'start',
-  minWidth: { xs: '100%', md: 240 },
-  maxWidth: { xs: '100%', md: 600 },
 };
 
 type EndlessScoreUIProps = {
@@ -69,17 +68,9 @@ const ScoreComponent = ({ scene }: EndlessScoreUIProps) => {
   }, [handleScoreUpdate, handleHighscoreUpdate]);
 
   return (
-    <Stack gap={3} p={2} sx={SCORE_COMP_SX}>
-      <ScoreRow
-        label={t('hiScore')}
-        value={hiScore}
-        shouldAnimate={canHiScoreAnimate}
-      />
-      <ScoreRow
-        label={t('currentScore')}
-        value={currentScore}
-        shouldAnimate={canScoreAnimate}
-      />
+    <Stack sx={SCORE_COMP_SX} direction={{ xs: 'row', md: 'column' }}>
+      <ScoreRow label={t('hiScore')} value={hiScore} shouldAnimate={canHiScoreAnimate} />
+      <ScoreRow label={t('currentScore')} value={currentScore} shouldAnimate={canScoreAnimate} />
     </Stack>
   );
 };

@@ -1,72 +1,55 @@
 import { Theme } from '@mui/material/styles';
+import { ENDLESS_FONT_FAMILIES } from '../../../theme/theme-consts';
 
 export const SCORE_SCALE = 1.35;
-
-const DIGIT_GAP = 0.4;
-const BLOCK_PADDING_X = 2;
-const BLOCK_PADDING_Y = 1.2;
-const MIN_HEIGHT = { xs: 80, md: 100 };
-const MIN_DIGIT_WIDTH = 24;
-const MAX_DIGIT_WIDTH = 48;
-
-const FLEX_CENTER = {
-  display: 'flex',
-  alignItems: 'center',
-};
+const MIN_DIGIT_WIDTH = 32;
+const MAX_DIGIT_WIDTH = 36;
 
 export const SCORE_ROW_STYLES = {
   container: {
-    backgroundColor: 'background.paper',
-    borderRadius: 2,
-    padding: 3,
-    boxShadow: 1,
-    width: '100%',
-    minHeight: MIN_HEIGHT,
+    display: 'flex',
     flexDirection: 'column',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    ...FLEX_CENTER,
-    gap: 1.2,
+    width: 'fit-content',
   },
   labelText: {
     fontWeight: 'bold',
-    color: 'text.secondary',
-    fontSize: { xs: '1.2rem', md: '1.4rem' },
-    textAlign: 'center',
+    fontFamily: ENDLESS_FONT_FAMILIES.main,
+    color: 'text.primary',
+    fontSize: { xs: '1rem', md: '1.2rem' },
+    textAlign: 'left',
   },
 };
 
 export const getScoreBlockStyles = (theme: Theme) => ({
-  backgroundColor: theme.palette.primary.light,
-  borderRadius: 2,
-  paddingX: BLOCK_PADDING_X,
-  paddingY: BLOCK_PADDING_Y,
-  display: 'grid',
+  padding: 0.5,
+  borderRadius: 1,
   gridAutoFlow: 'column',
-  gridAutoColumns: `minmax(${MIN_DIGIT_WIDTH}px, ${MAX_DIGIT_WIDTH}px)`,
-  gap: DIGIT_GAP,
   justifyContent: 'center',
   alignItems: 'center',
   overflow: 'hidden',
-  minWidth: 0,
-  flex: 1,
+  display: 'grid',
+  gridAutoColumns: `minmax(${MIN_DIGIT_WIDTH}px, ${MAX_DIGIT_WIDTH}px)`,
+  backgroundColor: theme.palette.primary.light,
 });
 
 export const getDigitBoxStyles = () => ({
-  width: '100%',
-  textAlign: 'center',
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
   overflow: 'hidden',
+  textAlign: 'center',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 export const getDigitTextStyles = (theme: Theme, isLeading: boolean, shouldAnimate: boolean) => ({
+  lineHeight: 1,
   fontWeight: 'bold',
-  fontSize: 'clamp(1rem, 4vw, 2.2rem)',
-  color: isLeading ? theme.palette.text.secondary : theme.palette.primary.contrastText,
+  fontFamily: ENDLESS_FONT_FAMILIES.main,
+  transformOrigin: 'center',
+  fontSize: 'clamp(1rem, 4vw, 2rem)',
   transition: 'transform 0.3s ease',
   transform: shouldAnimate ? `scale(${SCORE_SCALE})` : 'scale(1)',
-  transformOrigin: 'center',
-  lineHeight: 1,
+  color: isLeading ? theme.palette.text.secondary : theme.palette.primary.contrastText,
 });
 

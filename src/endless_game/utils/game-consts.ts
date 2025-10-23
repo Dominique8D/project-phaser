@@ -1,6 +1,6 @@
 export const WORLD_HEIGHT = 100000;
 
-export const TOTAL_DIGITS = 3;
+export const TOTAL_DIGITS = 5;
 export const MAX_SCORE = parseInt('9'.repeat(TOTAL_DIGITS));
 
 export const POWERUP_CONFIG = {

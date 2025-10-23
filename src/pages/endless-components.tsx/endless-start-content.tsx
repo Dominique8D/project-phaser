@@ -7,7 +7,7 @@ type EndlessStartContentProps = {
 
 const EndlessStartContent = ({ scene }: EndlessStartContentProps) => {
   return (
-    <Stack height='100%' width='100%' justifyContent='start' alignItems='center'>
+    <Stack height='100%' width='100%' justifyContent='start' alignItems='start'>
       <ScoreComponent scene={scene} />
     </Stack>
   );

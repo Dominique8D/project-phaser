@@ -3,12 +3,12 @@ import { EventBus } from '../EventBus';
 import { EventTypes } from '../EventTypes';
 import { Translations } from '../../game-consts/game-interfaces';
 import { MAIN_GAME_ID } from '../../game-consts/game-consts';
+import { ENDLESS_FONT_FAMILIES } from '../../theme/theme-consts';
 
 export class MainMenu extends Scene {
   background!: GameObjects.Image;
   title!: GameObjects.Text;
   startButton!: GameObjects.Image;
-  logos: GameObjects.Image[] = [];
 
   constructor() {
     super('MainMenu');
@@ -16,21 +16,6 @@ export class MainMenu extends Scene {
 
   create() {
     this.background = this.add.image(512, 384, 'background');
-
-    const spriteKeys = [
-      'tst_fall',
-      'tst_idle',
-      'tst_jmp',
-      'tst_move',
-      'tst_plummet',
-      'tst_powerup',
-      'tst_step',
-    ];
-
-    spriteKeys.forEach((key, index) => {
-      const sprite = this.add.image(512 + index * 10, 600, key).setDepth(100);
-      this.logos.push(sprite);
-    });
 
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
@@ -46,12 +31,12 @@ export class MainMenu extends Scene {
     });
 
     this.title = this.add
-      .text(512, 460, 'Main Menu', {
-        fontFamily: 'Arial Black',
-        fontSize: 38,
-        color: '#000000',
-        stroke: '#ffffff',
-        strokeThickness: 8,
+      .text(centerX, centerY - 120, 'Main Menu', {
+        fontFamily: ENDLESS_FONT_FAMILIES.title,
+        fontSize: 56,
+        color: '#ffffff',
+        stroke: '#979797ff',
+        strokeThickness: 4,
         align: 'center',
       })
       .setOrigin(0.5)
