@@ -6,7 +6,6 @@ import { MAIN_GAME_ID } from '../../game-consts/game-consts';
 import { ENDLESS_FONT_FAMILIES } from '../../theme/theme-consts';
 
 export class MainMenu extends Scene {
-  background!: GameObjects.Image;
   title!: GameObjects.Text;
   startButton!: GameObjects.Image;
 
@@ -15,8 +14,6 @@ export class MainMenu extends Scene {
   }
 
   create() {
-    this.background = this.add.image(512, 384, 'background');
-
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
 

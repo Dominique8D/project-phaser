@@ -10,17 +10,7 @@ export class Boot extends Scene {
     //  The Boot Scene is typically used to load in any assets you require for your Preloader, such as a game logo or background.
     //  The smaller the file size of the assets, the better, as the Boot Scene itself has no preloader.
 
-    this.load.image('background', getAssetPath('bg.png'));
-
-    const endlessAssets = [
-      'tst_fall',
-      'tst_idle',
-      'tst_jmp',
-      'tst_move',
-      'tst_plummet',
-      'tst_powerup',
-      'tst_step',
-    ];
+    const endlessAssets = ['tst_fall', 'tst_powerup'];
 
     endlessAssets.forEach((key) => {
       this.load.image(key, getAssetPath(`endless/${key}.png`));
