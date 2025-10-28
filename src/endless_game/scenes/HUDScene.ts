@@ -16,11 +16,13 @@ export class HUDScene extends Phaser.Scene {
   createEnemySpawnIndicator() {
     const topY = 30;
     const playerX = this.registry.get(REG_PLAYER_X);
-    const gameScene = this.scene.get(MAIN_GAME_ID);
-    if (gameScene) {
-      const typedGameScene = gameScene as Game;
-      const player = typedGameScene.player;
-      new EnemySpawnIndicator(this, playerX, topY, gameScene, player);
+    if (this.scene) {
+      const gameScene = this.scene.get(MAIN_GAME_ID);
+      if (gameScene) {
+        const typedGameScene = gameScene as Game;
+        const player = typedGameScene.player;
+        new EnemySpawnIndicator(this, playerX, topY, gameScene, player);
+      }
     }
   }
 
