@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { getAssetPath } from '../../utils/phaser-asset-loader';
 
 export class Preloader extends Scene {
   constructor() {
@@ -19,7 +20,12 @@ export class Preloader extends Scene {
     });
   }
 
-  preload() {}
+  preload() {
+    const endlessAudio = ['cancel', 'select', 'jump', 'item', 'item-2', 'landing', 'hit'];
+    endlessAudio.forEach((key) => {
+      this.load.audio(key, getAssetPath(`endless/sfx/${key}.wav`));
+    });
+  }
 
   create() {
     //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.

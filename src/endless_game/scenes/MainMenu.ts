@@ -4,16 +4,21 @@ import { EventTypes } from '../EventTypes';
 import { Translations } from '../../game-consts/game-interfaces';
 import { MAIN_GAME_ID } from '../../game-consts/game-consts';
 import { ENDLESS_FONT_FAMILIES } from '../../theme/theme-consts';
+import { SoundManager } from '../utils/sound-manager';
+import { setupSoundManager } from '../utils/game-utils';
 
 export class MainMenu extends Scene {
   title!: GameObjects.Text;
   startButton!: GameObjects.Image;
+  soundManager!: SoundManager;
 
   constructor() {
     super('MainMenu');
   }
 
   create() {
+    this.soundManager = setupSoundManager(this);
+
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
 
@@ -25,6 +30,7 @@ export class MainMenu extends Scene {
 
     this.startButton.on('pointerdown', () => {
       this.scene.start(MAIN_GAME_ID);
+      EventBus.emit(EventTypes.SELECT_MENU_ITEM);
     });
 
     this.title = this.add

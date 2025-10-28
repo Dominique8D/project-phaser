@@ -78,6 +78,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   public jump(ignoreGround: boolean = false) {
     if (this.bodyRef.blocked.down || ignoreGround) {
+      EventBus.emit(EventTypes.PLAYER_JUMP);
       this.setVelocityY(0);
       const multiplier = ignoreGround ? 1.25 : 1;
       this.setVelocityY(-this.jumpPower * multiplier);

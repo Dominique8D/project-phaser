@@ -2,6 +2,11 @@ import { Scene } from 'phaser';
 import { JumpOrb } from '../objects/jump-orb';
 import { JUNK_PART_SPRITES, POWERUP_CONFIG, WORLD_HEIGHT } from './game-consts';
 import { Player } from '../objects/player';
+import { SoundManager } from './sound-manager';
+
+export function setupSoundManager(scene: Phaser.Scene): SoundManager {
+  return new SoundManager(scene);
+}
 
 export function getGameWorldPamaters(scene: Scene) {
   const screenWidth = scene.scale.width;
