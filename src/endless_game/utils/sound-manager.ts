@@ -1,5 +1,6 @@
 import { EventTypes } from '../EventTypes';
 import { EventBus } from '../EventBus';
+import { getSfxVolume } from '../../state/audio-state';
 
 type SoundConfig = {
   key: string;
@@ -48,11 +49,11 @@ export class SoundManager {
     if (!config) return;
 
     const sound = this.scene.sound.add(config.key);
-    sound.play();
+    sound.play({ volume: getSfxVolume() });
 
     if (config.repeatOnce) {
       sound.once('complete', () => {
-        sound.play();
+        sound.play({ volume: getSfxVolume() });
       });
     }
   }

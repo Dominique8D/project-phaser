@@ -3,6 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
 import ThemeToggleButton from '../theme/theme-toggle-button';
 import LangSelector from './lang-selector';
+import AudioManager from './audio-manager';
 
 type GameAppBarProps = {
   title: string;
@@ -24,6 +25,7 @@ const GameAppBar: React.FC<GameAppBarProps> = ({ title }) => {
           </Stack>
 
           <Stack direction='row' spacing={2}>
+            <AudioManager />
             <ThemeToggleButton />
             <LangSelector />
           </Stack>

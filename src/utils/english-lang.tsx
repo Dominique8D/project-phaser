@@ -2,6 +2,8 @@ export const EnglishLang = {
   common: {
     title: 'Phaser Game EN',
     gameSelect: 'Select a game',
+    musicVolume: 'Music volumne',
+    sfxVolume: 'Effects volume',
   },
   gameRoutes: {
     testGame: 'Testgame',

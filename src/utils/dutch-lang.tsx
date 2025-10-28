@@ -2,6 +2,8 @@ export const DutchLang = {
   common: {
     title: 'Phaser Game NL',
     gameSelect: 'Selecteer een spel',
+    musicVolume: 'Muziekvolume',
+    sfxVolume: 'Effectvolume'
   },
   gameRoutes: {
     testGame: 'Testspel',

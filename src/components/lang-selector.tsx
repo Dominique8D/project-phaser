@@ -38,7 +38,6 @@ const LangSelector = () => {
         <IconButton
           onClick={handleClick}
           size='small'
-          sx={{ ml: 2 }}
           aria-controls={open ? 'language-menu' : undefined}
           aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
