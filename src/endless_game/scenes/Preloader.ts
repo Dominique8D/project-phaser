@@ -21,7 +21,17 @@ export class Preloader extends Scene {
   }
 
   preload() {
-    const endlessAudio = ['cancel', 'select', 'jump', 'item', 'item-2', 'landing', 'hit'];
+    const endlessAudio = [
+      'select',
+      'jump',
+      'item',
+      'item-2',
+      'landing',
+      'hit',
+      'enemy',
+      'enemy-2',
+      'wind',
+    ];
     endlessAudio.forEach((key) => {
       this.load.audio(key, getAssetPath(`endless/sfx/${key}.wav`));
     });

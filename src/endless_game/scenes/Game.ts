@@ -135,8 +135,9 @@ export class Game extends Scene {
   }
 
   createPlayer(screenWidth: number) {
+    const playerVerticalStartOffset = 300;
     const playerStartX = screenWidth / 2;
-    const playerStartY = WORLD_HEIGHT;
+    const playerStartY = WORLD_HEIGHT - playerVerticalStartOffset;
 
     this.player = new Player(this, playerStartX, playerStartY, 'player_move');
     this.player.setScale(2);

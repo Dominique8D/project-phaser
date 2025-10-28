@@ -30,7 +30,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.bodyRef = this.body as Phaser.Physics.Arcade.Body;
     this.bodyRef.setMaxVelocity(this.bodyRef.maxVelocity.x, this.maxFallSpeed);
-    this.setBounce(0.5);
+    this.setBounce(0.2);
 
     const screenWidth = scene.scale.width;
     const margin = screenWidth * 0.025;
@@ -78,7 +78,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   public jump(ignoreGround: boolean = false) {
     if (this.bodyRef.blocked.down || ignoreGround) {
-      EventBus.emit(EventTypes.PLAYER_JUMP);
+      // Only call this event if the jump was from the ground
+      if (!ignoreGround) EventBus.emit(EventTypes.PLAYER_JUMP);
       this.setVelocityY(0);
       const multiplier = ignoreGround ? 1.25 : 1;
       this.setVelocityY(-this.jumpPower * multiplier);
@@ -102,6 +103,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (newState !== this.currentState) {
+      // Call plummet event if need be
+      if (newState === PlayerState.Plummet) {
+        EventBus.emit(EventTypes.PLAYER_PLUMMET);
+      }
       this.currentState = newState;
       this.updateSprite();
     }

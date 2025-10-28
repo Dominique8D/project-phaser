@@ -1,3 +1,5 @@
+import { EventBus } from '../EventBus';
+import { EventTypes } from '../EventTypes';
 import { Enemy } from './enemy';
 import { Player } from './player';
 
@@ -22,6 +24,7 @@ export class EnemySpawnIndicator {
   ) {
     this.scene = hudScene;
     this.image = hudScene.add.image(x, y, 'tst_fall').setScale(INDICATOR_SCALE);
+    EventBus.emit(EventTypes.ENEMY_SPAWN);
 
     const targetX = this.getTargetX(x);
 
@@ -35,6 +38,7 @@ export class EnemySpawnIndicator {
         const worldX = this.image.x + gameCam.scrollX;
         const worldY = this.image.y + gameCam.scrollY;
 
+        EventBus.emit(EventTypes.ENEMY_ENTER);
         new Enemy(gameScene, worldX, worldY - ENEMY_OFFSET_Y, player);
         this.image.destroy();
       },
