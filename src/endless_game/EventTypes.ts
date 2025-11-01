@@ -15,5 +15,7 @@ export const EventTypes = {
   SELECT_MENU_ITEM: 'select-menu',
   ENEMY_SPAWN: 'enemy-spawn',
   ENEMY_ENTER: 'enemy-enter',
+  GAME_RESUME: 'game-resume',
+  GAME_PAUSE: 'game-pause',
 };
 

@@ -3,11 +3,14 @@ import { JumpOrb } from '../objects/jump-orb';
 import { JUNK_PART_SPRITES, POWERUP_CONFIG, WORLD_HEIGHT } from './game-consts';
 import { Player } from '../objects/player';
 import { SoundManager } from './sound-manager';
+import { MusicManager } from './music-manager';
 
-export function setupSoundManager(scene: Phaser.Scene): SoundManager {
-  return new SoundManager(scene);
+export function setupAudioManagers(scene: Phaser.Scene) {
+  return {
+    soundManager: new SoundManager(scene),
+    musicManager: new MusicManager(scene),
+  };
 }
-
 export function getGameWorldPamaters(scene: Scene) {
   const screenWidth = scene.scale.width;
   const screenHeight = scene.scale.height;

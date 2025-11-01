@@ -4,8 +4,8 @@ import { Player } from '../objects/player';
 import {
   generatePowerups,
   getGameWorldPamaters,
+  setupAudioManagers,
   setupDebugLines,
-  setupSoundManager,
 } from '../utils/game-utils';
 import { EventTypes } from '../EventTypes';
 import { CAM_SCROLL_SPEED, MAX_SCORE, WORLD_HEIGHT, ZONE_CONFIG } from '../utils/game-consts';
@@ -15,6 +15,7 @@ import { getAssetPath } from '../../utils/phaser-asset-loader';
 import { HUD_SCENE_ID, MAIN_GAME_ID } from '../../game-consts/game-consts';
 import { REG_HIGHSCORE, REG_PLAYER_X } from '../utils/registy-keys';
 import { SoundManager } from '../utils/sound-manager';
+import { MusicManager } from '../utils/music-manager';
 
 export class Game extends Scene {
   camera!: Phaser.Cameras.Scene2D.Camera;
@@ -25,6 +26,7 @@ export class Game extends Scene {
   playerHeightTracker!: PlayerHeightTracker;
   bgPipeline!: BackgroundPipeline;
   soundManager!: SoundManager;
+  musicManager!: MusicManager;
 
   constructor() {
     super(MAIN_GAME_ID);
@@ -52,7 +54,8 @@ export class Game extends Scene {
   }
 
   create() {
-    this.soundManager = setupSoundManager(this);
+    ({ soundManager: this.soundManager, musicManager: this.musicManager } =
+      setupAudioManagers(this));
 
     this.scene.launch(HUD_SCENE_ID);
     this.setupScore();
@@ -78,6 +81,10 @@ export class Game extends Scene {
     EventBus.on(EventTypes.PLAYER_LANDED, () => this.resetSession());
     EventBus.on(EventTypes.ZONE_CHANGED, this.updateBackgroundColor, this);
 
+    // Listen for pause/resume events
+    EventBus.on(EventTypes.GAME_PAUSE, this.handlePause, this);
+    EventBus.on(EventTypes.GAME_RESUME, this.handleResume, this);
+
     // Handle clean up
     this.events.once('shutdown', () => {
       EventBus.off(EventTypes.PLAYER_LANDED);
@@ -85,6 +92,8 @@ export class Game extends Scene {
       EventBus.off(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
       EventBus.off(EventTypes.SCORE_DECREASE, this.handleScoreDecrease, this);
       EventBus.off(EventTypes.SCORE_RESET, this.handleScoreReset, this);
+      EventBus.off(EventTypes.GAME_PAUSE, this.handlePause, this);
+      EventBus.off(EventTypes.GAME_RESUME, this.handleResume, this);
     });
   }
 
@@ -93,6 +102,14 @@ export class Game extends Scene {
     this.playerHeightTracker.update(this.player.y);
     this.camera.scrollY -= CAM_SCROLL_SPEED * (delta / 1000);
     this.registry.set(REG_PLAYER_X, this.player.x);
+  }
+
+  private handlePause() {
+    this.scene.pause();
+  }
+
+  private handleResume() {
+    this.scene.resume();
   }
 
   setupGameWorld(screenWidth: number) {

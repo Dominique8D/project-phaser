@@ -32,8 +32,13 @@ export class Preloader extends Scene {
       'enemy-2',
       'wind',
     ];
+    const endlessMusic = ['TEMP_BGM_POL-TR'];
+
     endlessAudio.forEach((key) => {
       this.load.audio(key, getAssetPath(`endless/sfx/${key}.wav`));
+    });
+    endlessMusic.forEach((key) => {
+      this.load.audio(key, getAssetPath(`endless/bgm/${key}.wav`));
     });
   }
 

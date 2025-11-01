@@ -5,19 +5,22 @@ import { Translations } from '../../game-consts/game-interfaces';
 import { MAIN_GAME_ID } from '../../game-consts/game-consts';
 import { ENDLESS_FONT_FAMILIES } from '../../theme/theme-consts';
 import { SoundManager } from '../utils/sound-manager';
-import { setupSoundManager } from '../utils/game-utils';
+import { MusicManager } from '../utils/music-manager';
+import { setupAudioManagers } from '../utils/game-utils';
 
 export class MainMenu extends Scene {
   title!: GameObjects.Text;
   startButton!: GameObjects.Image;
   soundManager!: SoundManager;
+  musicManager!: MusicManager;
 
   constructor() {
     super('MainMenu');
   }
 
   create() {
-    this.soundManager = setupSoundManager(this);
+    ({ soundManager: this.soundManager, musicManager: this.musicManager } =
+      setupAudioManagers(this));
 
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
