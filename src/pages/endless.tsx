@@ -23,7 +23,7 @@ const EndlessGamePage = () => {
 
   // Handle pause
   useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
+    const handleInput = (event: MouseEvent | TouchEvent) => {
       const target = event.target as HTMLElement;
 
       if (target.tagName === 'CANVAS') {
@@ -39,9 +39,12 @@ const EndlessGamePage = () => {
       }
     };
 
-    document.addEventListener('click', handleClick);
+    document.addEventListener('click', handleInput);
+    document.addEventListener('touchstart', handleInput);
+
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('click', handleInput);
+      document.removeEventListener('touchstart', handleInput);
     };
   }, [isPaused]);
 
