@@ -92,4 +92,3 @@ export function setupDebugLines(scene: Scene, worldWidth: number) {
   topLine.lineTo(worldWidth, 0);
   topLine.strokePath();
 }
-

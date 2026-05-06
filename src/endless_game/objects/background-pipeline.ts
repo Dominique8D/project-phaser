@@ -1,8 +1,6 @@
-import Phaser from 'phaser';
-
 export class BackgroundPipeline extends Phaser.Renderer.WebGL.Pipelines.SinglePipeline {
-  private colorTop: [number, number, number] = [1.0, 0.0, 0.0];
-  private colorBottom: [number, number, number] = [0.0, 0.0, 0.0];
+  private colorTop: [number, number, number] = [1, 0, 0];
+  private colorBottom: [number, number, number] = [0, 0, 0];
 
   constructor(game: Phaser.Game) {
     super({
@@ -15,6 +13,7 @@ export class BackgroundPipeline extends Phaser.Renderer.WebGL.Pipelines.SinglePi
     this.set3f('iColorTop', ...this.colorTop);
     this.set3f('iColorBottom', ...this.colorBottom);
     this.set2f('iResolution', this.game.scale.width, this.game.scale.height);
+    this.set1f('iTime', performance.now() * 0.001);
   }
 
   setGradient(top: [number, number, number], bottom: [number, number, number]) {
@@ -35,24 +34,24 @@ export class BackgroundPipeline extends Phaser.Renderer.WebGL.Pipelines.SinglePi
     const step = () => {
       const now = performance.now();
       const t = Math.min((now - startTime) / duration, 1);
-      const easedT = ease(t);
+      const e = ease(t);
 
-      const rTop = Phaser.Math.Linear(startTop[0], targetTop[0], easedT);
-      const gTop = Phaser.Math.Linear(startTop[1], targetTop[1], easedT);
-      const bTop = Phaser.Math.Linear(startTop[2], targetTop[2], easedT);
+      this.setGradient(
+        [
+          Phaser.Math.Linear(startTop[0], targetTop[0], e),
+          Phaser.Math.Linear(startTop[1], targetTop[1], e),
+          Phaser.Math.Linear(startTop[2], targetTop[2], e),
+        ],
+        [
+          Phaser.Math.Linear(startBottom[0], targetBottom[0], e),
+          Phaser.Math.Linear(startBottom[1], targetBottom[1], e),
+          Phaser.Math.Linear(startBottom[2], targetBottom[2], e),
+        ],
+      );
 
-      const rBot = Phaser.Math.Linear(startBottom[0], targetBottom[0], easedT);
-      const gBot = Phaser.Math.Linear(startBottom[1], targetBottom[1], easedT);
-      const bBot = Phaser.Math.Linear(startBottom[2], targetBottom[2], easedT);
-
-      this.setGradient([rTop, gTop, bTop], [rBot, gBot, bBot]);
-
-      if (t < 1) {
-        requestAnimationFrame(step);
-      }
+      if (t < 1) requestAnimationFrame(step);
     };
 
     requestAnimationFrame(step);
   }
 }
-

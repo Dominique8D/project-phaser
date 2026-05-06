@@ -3,7 +3,7 @@ export const DutchLang = {
     title: 'Phaser Game NL',
     gameSelect: 'Selecteer een spel',
     musicVolume: 'Muziekvolume',
-    sfxVolume: 'Effectvolume'
+    sfxVolume: 'Effectvolume',
   },
   gameRoutes: {
     testGame: 'Testspel',
@@ -18,4 +18,3 @@ export const DutchLang = {
     currentScore: 'Huidige score:',
   },
 };
-

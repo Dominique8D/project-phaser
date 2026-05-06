@@ -9,4 +9,3 @@ const useUpdateQueryParam = (key: string, value: string) => {
 };
 
 export default useUpdateQueryParam;
-

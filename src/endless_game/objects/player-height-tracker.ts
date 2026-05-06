@@ -70,4 +70,3 @@ export class PlayerHeightTracker {
     EventBus.off(EventTypes.PLAYER_LANDED, this.resetSpawnPoints, this);
   }
 }
-

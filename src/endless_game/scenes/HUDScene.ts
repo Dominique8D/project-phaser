@@ -64,4 +64,3 @@ export class HUDScene extends Phaser.Scene {
     EventBus.off(EventTypes.GAME_RESUME, this.hidePauseOverlay, this);
   }
 }
-

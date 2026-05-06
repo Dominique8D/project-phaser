@@ -52,4 +52,3 @@ export const getDigitTextStyles = (theme: Theme, isLeading: boolean, shouldAnima
   transform: shouldAnimate ? `scale(${SCORE_SCALE})` : 'scale(1)',
   color: isLeading ? theme.palette.text.secondary : theme.palette.primary.contrastText,
 });
-

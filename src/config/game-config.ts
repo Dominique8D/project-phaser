@@ -22,4 +22,3 @@ export const GAME_ROUTES: GameRoute[] = [
     component: EndlessGamePage,
   },
 ];
-

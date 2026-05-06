@@ -16,4 +16,3 @@ const EndlessStartContent = ({ scene }: EndlessStartContentProps) => {
 };
 
 export default EndlessStartContent;
-

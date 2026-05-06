@@ -18,4 +18,3 @@ export const EventTypes = {
   GAME_RESUME: 'game-resume',
   GAME_PAUSE: 'game-pause',
 };
-

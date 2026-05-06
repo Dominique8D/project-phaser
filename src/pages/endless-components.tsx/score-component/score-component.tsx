@@ -76,4 +76,3 @@ const ScoreComponent = ({ scene }: EndlessScoreUIProps) => {
 };
 
 export default ScoreComponent;
-

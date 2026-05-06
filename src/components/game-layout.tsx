@@ -69,4 +69,3 @@ const GameLayout: React.FC<GameLayoutProps> = ({ title, children, startContent, 
 };
 
 export default GameLayout;
-

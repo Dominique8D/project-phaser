@@ -9,4 +9,3 @@ const useLangTranslation = (langKey: string) => {
 };
 
 export default useLangTranslation;
-

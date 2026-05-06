@@ -42,4 +42,3 @@ const ScoreRow = ({ label, value, shouldAnimate }: ScoreRowProps) => {
 };
 
 export default ScoreRow;
-

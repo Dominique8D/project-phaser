@@ -79,4 +79,3 @@ export class EnemySpawnIndicator {
     return Phaser.Math.Clamp(targetX, minX, maxX);
   }
 }
-

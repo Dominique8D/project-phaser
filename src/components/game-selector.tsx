@@ -40,4 +40,3 @@ const GameSelector: React.FC = () => {
 };
 
 export default GameSelector;
-

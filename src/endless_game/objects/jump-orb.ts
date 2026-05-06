@@ -28,4 +28,3 @@ export class JumpOrb extends Phaser.Physics.Arcade.Sprite {
     });
   }
 }
-

@@ -33,4 +33,3 @@ const TestGameControls: React.FC<TestGameControlsProps> = ({
 };
 
 export default TestGameControls;
-

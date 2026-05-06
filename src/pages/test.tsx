@@ -70,4 +70,3 @@ const TestGamePage = () => {
 };
 
 export default TestGamePage;
-

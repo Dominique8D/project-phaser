@@ -9,7 +9,7 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const PARAM_KEY = 'lang'
+const PARAM_KEY = 'lang';
 const DEFAULT_LANG = 'nl';
 const VALID_LANGUAGES = ['nl', 'gb'];
 
@@ -34,4 +34,3 @@ const useLanguage = () => {
 };
 
 export { LanguageProvider, useLanguage };
-

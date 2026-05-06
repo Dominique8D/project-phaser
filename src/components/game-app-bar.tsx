@@ -36,4 +36,3 @@ const GameAppBar: React.FC<GameAppBarProps> = ({ title }) => {
 };
 
 export default GameAppBar;
-

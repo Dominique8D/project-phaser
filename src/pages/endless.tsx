@@ -62,4 +62,3 @@ const EndlessGamePage = () => {
 };
 
 export default EndlessGamePage;
-

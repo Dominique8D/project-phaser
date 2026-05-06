@@ -49,4 +49,3 @@ export const ThemeProviderWrapper: React.FC<ThemeProviderProps> = ({ children })
     </ThemeContext.Provider>
   );
 };
-

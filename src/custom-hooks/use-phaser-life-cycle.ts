@@ -62,4 +62,3 @@ export const usePhaserLifecycle = ({
     };
   }, [currentActiveScene, ref, translations, eventBus, eventTypes]);
 };
-

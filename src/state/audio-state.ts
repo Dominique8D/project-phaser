@@ -15,4 +15,3 @@ export const setMusicVolume = (value: number) => {
 export const setSfxVolume = (value: number) => {
   sfxVolume = clampVolume(value);
 };
-
