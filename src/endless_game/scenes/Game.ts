@@ -73,21 +73,22 @@ export class Game extends Scene {
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
       this.pointer = pointer;
     });
-
-    // Scene is ready to be used
     EventBus.emit(EventTypes.SCENE_READY, this);
+    EventBus.on(EventTypes.PLAYER_LANDED, () => {
+      this.resetSession();
+    });
 
-    // Start listening now
-    EventBus.on(EventTypes.PLAYER_LANDED, () => this.resetSession());
+    EventBus.on(EventTypes.PLAYER_HIT_CEILING, () => {
+      this.resetSession();
+    });
+
     EventBus.on(EventTypes.ZONE_CHANGED, this.updateBackgroundColor, this);
-
-    // Listen for pause/resume events
     EventBus.on(EventTypes.GAME_PAUSE, this.handlePause, this);
     EventBus.on(EventTypes.GAME_RESUME, this.handleResume, this);
 
-    // Handle clean up
     this.events.once('shutdown', () => {
       EventBus.off(EventTypes.PLAYER_LANDED);
+      EventBus.off(EventTypes.PLAYER_HIT_CEILING);
       EventBus.off(EventTypes.ZONE_CHANGED, this.updateBackgroundColor, this);
       EventBus.off(EventTypes.SCORE_INCREASE, this.handleScoreIncrease, this);
       EventBus.off(EventTypes.SCORE_DECREASE, this.handleScoreDecrease, this);
@@ -147,7 +148,7 @@ export class Game extends Scene {
   setupCamera(screenWidth: number, screenHeight: number) {
     this.camera = this.cameras.main;
     this.camera.setBounds(0, 0, screenWidth, WORLD_HEIGHT);
-    this.camera.scrollY = screenWidth - screenHeight;
+    this.camera.scrollY = WORLD_HEIGHT - screenHeight;
     this.camera.startFollow(this.player, false, 0, 1);
   }
 

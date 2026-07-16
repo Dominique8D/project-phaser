@@ -4,6 +4,7 @@ export const EventTypes = {
   PLAYER_LANDED: 'player-landed',
   PLAYER_JUMP: 'player-jump',
   PLAYER_PLUMMET: 'player-plummet',
+  PLAYER_HIT_CEILING: 'player-hit-ceiling',
   SCORE_INCREASE: 'score-increase',
   SCORE_NO_CHANGE: 'score-no-change',
   SCORE_DECREASE: 'score-decrease',

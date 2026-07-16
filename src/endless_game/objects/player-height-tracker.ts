@@ -12,6 +12,7 @@ export class PlayerHeightTracker {
     this.lastZone = this.getZone(initialY);
 
     EventBus.on(EventTypes.PLAYER_LANDED, this.resetSpawnPoints, this);
+    EventBus.on(EventTypes.PLAYER_HIT_CEILING, this.resetSpawnPoints, this);
   }
 
   update(currentY: number): void {
@@ -68,5 +69,6 @@ export class PlayerHeightTracker {
 
   destroy(): void {
     EventBus.off(EventTypes.PLAYER_LANDED, this.resetSpawnPoints, this);
+    EventBus.off(EventTypes.PLAYER_HIT_CEILING, this.resetSpawnPoints, this);
   }
 }
