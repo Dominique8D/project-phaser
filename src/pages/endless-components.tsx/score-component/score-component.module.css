@@ -1,0 +1,13 @@
+.scoreComponent {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-2);
+}
+
+@media (min-width: 56.25rem) {
+  .scoreComponent {
+    flex-direction: column;
+  }
+}

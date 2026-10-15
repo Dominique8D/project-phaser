@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.label {
+  margin: 0 0 var(--space-1);
+  color: var(--color-primary-contrast);
+  font-size: 1rem;
+  font-family: Audiowide, sans-serif;
+  font-weight: 700;
+  text-align: left;
+}
+
+.scoreBlock {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(var(--size-score-digit-min), var(--size-score-digit-max));
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-1);
+  border-radius: var(--radius-small);
+  background: var(--color-primary-light);
+}
+
+.digitBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+}
+
+.digitText {
+  color: var(--color-primary-contrast);
+  font-size: 1rem;
+  font-family: Audiowide, sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.leading {
+  color: var(--color-primary-contrast);
+}
+
+.animated {
+  transform: scale(1.35);
+}
+
+@media (min-width: 56.25rem) {
+  .label {
+    font-size: 1.2rem;
+  }
+
+  .digitText {
+    font-size: 2rem;
+  }
+}

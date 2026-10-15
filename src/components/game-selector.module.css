@@ -1,0 +1,68 @@
+.selector {
+  display: flex;
+  min-height: calc(100vh - var(--size-header));
+  min-height: calc(100svh - var(--size-header));
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  padding: var(--space-8) var(--space-4);
+  background: radial-gradient(
+    ellipse at 50% 38%,
+    color-mix(in srgb, var(--color-secondary-dark) 18%, var(--color-background)) 0%,
+    var(--color-background) 72%
+  );
+}
+
+.heading {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.gameLinks {
+  display: grid;
+  width: min(100%, 34rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-4);
+}
+
+.gameLink {
+  display: grid;
+  min-height: 5.5rem;
+  place-items: center;
+  padding: var(--space-4);
+  border: var(--size-border) solid var(--color-divider);
+  border-radius: var(--radius-small);
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.gameLink:hover,
+.gameLink:focus-visible {
+  border-color: var(--color-secondary);
+  background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-surface));
+  transform: translateY(-0.125rem);
+}
+
+.gameLink:focus-visible {
+  outline: var(--size-outline) solid var(--color-secondary);
+  outline-offset: var(--size-focus-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gameLink {
+    transition: none;
+  }
+}

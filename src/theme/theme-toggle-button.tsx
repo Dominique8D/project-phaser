@@ -1,20 +1,20 @@
-import { Stack, Box, IconButton } from '@mui/material';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import useLangTranslation from '../custom-hooks/use-lang-translation';
+import { IconButton } from '../components/icon-button';
+import { MoonIcon, SunIcon } from '../components/icons';
 import { useThemeProvider, LIGHT } from './theme-provider-wrapper';
 
 const ThemeToggleButton = () => {
   const { toggleTheme, mode } = useThemeProvider();
   const isLightMode = mode === LIGHT;
+  const { t } = useLangTranslation('common');
 
   return (
-    <Stack>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <IconButton color='secondary' onClick={toggleTheme}>
-          {isLightMode ? <DarkModeIcon /> : <LightModeIcon />}
-        </IconButton>
-      </Box>
-    </Stack>
+    <IconButton
+      onClick={toggleTheme}
+      label={t(isLightMode ? 'switchToDark' : 'switchToLight')}
+    >
+      {isLightMode ? <MoonIcon /> : <SunIcon />}
+    </IconButton>
   );
 };
 

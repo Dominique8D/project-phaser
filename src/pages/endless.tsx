@@ -19,6 +19,7 @@ const EndlessGamePage = () => {
 
   const gameTranslations = {
     title: t('title'),
+    gameOver: t('gameOver'),
   };
 
   // Handle pause

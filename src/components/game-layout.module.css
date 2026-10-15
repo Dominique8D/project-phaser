@@ -1,0 +1,66 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidePanel {
+  display: flex;
+  width: var(--size-sidebar);
+  flex: 1 1 var(--size-sidebar);
+  padding: var(--space-2);
+  background: var(--color-surface);
+}
+
+.gradientBox {
+  min-width: 0;
+  flex: 1;
+  padding: var(--space-2);
+  border-radius: var(--radius-small);
+  color: var(--color-primary-contrast);
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary-light));
+}
+
+.canvas {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-2);
+  background: var(--color-surface);
+}
+
+.canvas :global(canvas) {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: 56.25rem) {
+  .content {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .sidePanel {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .gradientBox {
+    min-height: var(--size-header);
+  }
+
+  .canvas {
+    min-height: 0;
+  }
+}

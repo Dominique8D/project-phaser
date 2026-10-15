@@ -5,6 +5,7 @@ import { LanguageProvider } from './context/language-context.tsx';
 import { ThemeProviderWrapper } from './theme/theme-provider-wrapper.tsx';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { GAME_ROUTES } from './config/game-config.ts';
+import './global.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -1,0 +1,17 @@
+.position {
+  margin: var(--space-2) 0;
+  font-size: 0.875rem;
+}
+
+.position dt {
+  margin-bottom: var(--space-1);
+  font-weight: 700;
+}
+
+.position dd {
+  margin: 0;
+}
+
+.position dd span {
+  font-weight: 700;
+}

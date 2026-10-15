@@ -7,6 +7,7 @@ import { ENDLESS_FONT_FAMILIES } from '../../theme/theme-consts';
 import { SoundManager } from '../utils/sound-manager';
 import { MusicManager } from '../utils/music-manager';
 import { setupAudioManagers } from '../utils/game-utils';
+import { GAME_COLORS } from '../../theme/game-colors';
 
 export class MainMenu extends Scene {
   title!: GameObjects.Text;
@@ -37,11 +38,11 @@ export class MainMenu extends Scene {
     });
 
     this.title = this.add
-      .text(centerX, centerY - 120, 'Main Menu', {
+      .text(centerX, centerY - 120, '', {
         fontFamily: ENDLESS_FONT_FAMILIES.title,
         fontSize: 56,
-        color: '#ffffff',
-        stroke: '#979797ff',
+        color: GAME_COLORS.text,
+        stroke: GAME_COLORS.menuOutline,
         strokeThickness: 4,
         align: 'center',
       })

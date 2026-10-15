@@ -3,12 +3,13 @@ import useLangTranslation from '../custom-hooks/use-lang-translation';
 import { TestGame } from '../test_game/TestGame';
 import { MainMenu } from '../test_game/scenes/MainMenu';
 import TestGameControls from '../components/test_game/test-game-controls';
-import { Typography } from '@mui/material';
 import GameLayout from '../components/game-layout';
 import { IRefPhaserGame } from '../game-consts/game-interfaces';
+import styles from './test.module.css';
 
 const TestGamePage = () => {
-  const { t } = useLangTranslation('testGame');
+  const { t: tGame } = useLangTranslation('testGame');
+  const { t } = useLangTranslation('common');
   const [canMoveSprite, setCanMoveSprite] = useState(true);
   const [spritePosition, setSpritePosition] = useState({ x: 0, y: 0 });
   const phaserRef = useRef<IRefPhaserGame | null>(null);
@@ -46,7 +47,9 @@ const TestGamePage = () => {
   };
 
   const gameTranslations = {
-    title: t('title'),
+    title: tGame('title'),
+    gameOver: tGame('gameOver'),
+    message: tGame('message'),
   };
 
   return (
@@ -60,7 +63,11 @@ const TestGamePage = () => {
             moveSprite={moveSprite}
             addSprite={addSprite}
           />
-          <Typography>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</Typography>
+          <dl className={styles.position}>
+            <dt>{t('spritePosition')}</dt>
+            <dd><span>{t('positionX')}</span>: {spritePosition.x}</dd>
+            <dd><span>{t('positionY')}</span>: {spritePosition.y}</dd>
+          </dl>
         </>
       }
     >

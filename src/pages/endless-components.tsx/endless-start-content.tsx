@@ -1,6 +1,6 @@
-import { Stack } from '@mui/material';
 import ScoreComponent from './score-component/score-component';
 import { MAIN_GAME_ID } from '../../game-consts/game-consts';
+import styles from './endless-start-content.module.css';
 
 type EndlessStartContentProps = {
   scene: Phaser.Scene | null;
@@ -9,9 +9,9 @@ type EndlessStartContentProps = {
 const EndlessStartContent = ({ scene }: EndlessStartContentProps) => {
   const isMainGame = scene?.scene.key === MAIN_GAME_ID;
   return (
-    <Stack height='100%' width='100%' justifyContent='start' alignItems='start'>
+    <div className={styles.content}>
       {isMainGame && <ScoreComponent scene={scene} />}
-    </Stack>
+    </div>
   );
 };
 

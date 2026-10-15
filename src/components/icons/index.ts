@@ -1,0 +1,10 @@
+export { default as AddIcon } from './add-icon';
+export { default as ChangeSceneIcon } from './change-scene-icon';
+export { default as HomeIcon } from './home-icon';
+export { default as MoonIcon } from './moon-icon';
+export { default as MoveIcon } from './move-icon';
+export { default as MusicIcon } from './music-icon';
+export { default as SunIcon } from './sun-icon';
+export { default as VolumeHighIcon } from './volume-high-icon';
+export { default as VolumeLowIcon } from './volume-low-icon';
+export { default as VolumeMutedIcon } from './volume-muted-icon';

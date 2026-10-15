@@ -2,6 +2,7 @@ import { GameObjects, Scene } from 'phaser';
 import { EventBus } from '../EventBus';
 import { Translations } from '../../game-consts/game-interfaces';
 import { EventTypes } from '../EventTypes';
+import { GAME_COLORS } from '../../theme/game-colors';
 
 export class MainMenu extends Scene {
   background!: GameObjects.Image;
@@ -18,11 +19,11 @@ export class MainMenu extends Scene {
     this.logo = this.add.image(512, 300, 'logo').setDepth(100);
 
     this.title = this.add
-      .text(512, 460, 'Main Menu', {
+      .text(512, 460, '', {
         fontFamily: 'Arial Black',
         fontSize: 38,
-        color: '#ffffff',
-        stroke: '#000000',
+        color: GAME_COLORS.text,
+        stroke: GAME_COLORS.textOutline,
         strokeThickness: 8,
         align: 'center',
       })

@@ -1,0 +1,30 @@
+.currentFlag {
+  width: var(--size-flag);
+  height: var(--size-flag);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.option {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.option:hover,
+.option[aria-current='true'] {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.option img {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: cover;
+}

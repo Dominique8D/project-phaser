@@ -1,0 +1,25 @@
+.container {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  z-index: var(--z-popover);
+  top: calc(100% + var(--space-2));
+  right: 0;
+  padding: var(--space-3) var(--space-4);
+  border: var(--size-border) solid var(--color-divider);
+  border-radius: var(--radius-small);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-popover);
+}
+
+.menu[data-variant='audio'] {
+  width: var(--size-menu-audio);
+}
+
+.menu[data-variant='language'] {
+  min-width: var(--size-menu-language);
+  padding: var(--space-1);
+}

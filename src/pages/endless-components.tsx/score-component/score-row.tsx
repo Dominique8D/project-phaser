@@ -1,11 +1,5 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import {
-  SCORE_ROW_STYLES,
-  getScoreBlockStyles,
-  getDigitBoxStyles,
-  getDigitTextStyles,
-} from './score-row-styling';
 import { TOTAL_DIGITS } from '../../../endless_game/utils/game-consts';
+import styles from './score-row.module.css';
 
 type ScoreRowProps = {
   label: string;
@@ -14,8 +8,6 @@ type ScoreRowProps = {
 };
 
 const ScoreRow = ({ label, value, shouldAnimate }: ScoreRowProps) => {
-  const theme = useTheme();
-
   const scoreStr = value.toString();
   const paddedScore = scoreStr.padStart(TOTAL_DIGITS, '0');
   const leadingCount = paddedScore.length - scoreStr.length;
@@ -23,21 +15,21 @@ const ScoreRow = ({ label, value, shouldAnimate }: ScoreRowProps) => {
   const digits = paddedScore.split('').map((digit, index) => {
     const isLeading = index < leadingCount;
     return (
-      <Box key={index} sx={getDigitBoxStyles()}>
-        <Typography variant='inherit' sx={getDigitTextStyles(theme, isLeading, shouldAnimate)}>
+      <div className={styles.digitBox} key={index}>
+        <span
+          className={`${styles.digitText} ${isLeading ? styles.leading : ''} ${shouldAnimate ? styles.animated : ''}`}
+        >
           {digit}
-        </Typography>
-      </Box>
+        </span>
+      </div>
     );
   });
 
   return (
-    <Box sx={SCORE_ROW_STYLES.container}>
-      <Typography variant='h6' sx={SCORE_ROW_STYLES.labelText}>
-        {label}
-      </Typography>
-      <Box sx={getScoreBlockStyles(theme)}>{digits}</Box>
-    </Box>
+    <div className={styles.container}>
+      <h2 className={styles.label}>{label}</h2>
+      <div className={styles.scoreBlock}>{digits}</div>
+    </div>
   );
 };
 

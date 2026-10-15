@@ -1,20 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Stack } from '@mui/material';
 import useLangTranslation from '../../../custom-hooks/use-lang-translation';
 import { EventBus } from '../../../endless_game/EventBus';
 import { EventTypes } from '../../../endless_game/EventTypes';
 import { REG_HIGHSCORE } from '../../../endless_game/utils/registy-keys';
 import { MAIN_GAME_ID } from '../../../game-consts/game-consts';
 import ScoreRow from './score-row';
+import styles from './score-component.module.css';
 
 const ANIM_TIME_OUT = 300;
-
-const SCORE_COMP_SX = {
-  gap: 2,
-  padding: 1,
-  alignItems: 'stretch',
-  justifyContent: 'start',
-};
 
 type EndlessScoreUIProps = {
   scene: Phaser.Scene | null;
@@ -68,10 +61,10 @@ const ScoreComponent = ({ scene }: EndlessScoreUIProps) => {
   }, [handleScoreUpdate, handleHighscoreUpdate]);
 
   return (
-    <Stack sx={SCORE_COMP_SX} direction={{ xs: 'row', md: 'column' }}>
+    <div className={styles.scoreComponent}>
       <ScoreRow label={t('hiScore')} value={hiScore} shouldAnimate={canHiScoreAnimate} />
       <ScoreRow label={t('currentScore')} value={currentScore} shouldAnimate={canScoreAnimate} />
-    </Stack>
+    </div>
   );
 };
 

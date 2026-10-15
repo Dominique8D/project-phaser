@@ -1,0 +1,43 @@
+.button {
+  display: inline-grid;
+  width: var(--size-control);
+  height: var(--size-control);
+  flex: 0 0 auto;
+  place-items: center;
+  padding: var(--space-1);
+  border: 0;
+  border-radius: 50%;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button[data-size='small'] {
+  width: var(--size-control-small);
+  height: var(--size-control-small);
+}
+
+.button svg {
+  width: var(--size-icon);
+  height: var(--size-icon);
+}
+
+.button[data-size='small'] svg {
+  width: var(--size-icon-small);
+  height: var(--size-icon-small);
+}
+
+.button:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 15%, transparent);
+}
+
+.button:focus-visible {
+  outline: var(--size-outline) solid currentColor;
+  outline-offset: var(--size-focus-offset);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}

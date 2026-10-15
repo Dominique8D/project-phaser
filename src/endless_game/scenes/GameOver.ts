@@ -1,6 +1,8 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 import { EventTypes } from '../EventTypes';
+import { Translations } from '../../game-consts/game-interfaces';
+import { GAME_COLORS } from '../../theme/game-colors';
 
 export class GameOver extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -12,19 +14,24 @@ export class GameOver extends Scene {
 
   create() {
     this.camera = this.cameras.main;
-    this.camera.setBackgroundColor(0xff0000);
+    this.camera.setBackgroundColor(GAME_COLORS.backgroundGameOver);
 
     this.gameOverText = this.add
-      .text(512, 384, 'Game Over', {
+      .text(512, 384, '', {
         fontFamily: 'Arial Black',
         fontSize: 64,
-        color: '#ffffff',
-        stroke: '#000000',
+        color: GAME_COLORS.text,
+        stroke: GAME_COLORS.textOutline,
         strokeThickness: 8,
         align: 'center',
       })
       .setOrigin(0.5)
       .setDepth(100);
+
+    EventBus.on(EventTypes.UPDATE_TRANSLATIONS, (translations: Translations) => {
+      if (translations.gameOver) this.gameOverText.setText(translations.gameOver);
+    });
+    this.events.once('shutdown', () => EventBus.off(EventTypes.UPDATE_TRANSLATIONS));
 
     EventBus.emit(EventTypes.SCENE_READY, this);
   }

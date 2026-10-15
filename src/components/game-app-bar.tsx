@@ -1,37 +1,32 @@
-import { AppBar, Toolbar, Stack, IconButton, Typography } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ThemeToggleButton from '../theme/theme-toggle-button';
 import LangSelector from './lang-selector';
 import AudioManager from './audio-manager';
+import { HomeIcon } from './icons';
+import { IconLink } from './icon-button';
+import styles from './game-app-bar.module.css';
 
 type GameAppBarProps = {
   title: string;
 };
 
 const GameAppBar: React.FC<GameAppBarProps> = ({ title }) => {
+  const { t } = useTranslation('common');
+
   return (
-    <AppBar position='sticky' color='primary'>
-      <Toolbar>
-        <Stack direction='row' alignItems='center' width='100%' spacing={2}>
-          <IconButton component={RouterLink} to='/' color='inherit' aria-label='home' size='large'>
-            <HomeIcon />
-          </IconButton>
-
-          <Stack flex={1} alignItems='center'>
-            <Typography variant='h6' component='div' fontWeight='bold'>
-              {title}
-            </Typography>
-          </Stack>
-
-          <Stack direction='row' spacing={2}>
-            <AudioManager />
-            <ThemeToggleButton />
-            <LangSelector />
-          </Stack>
-        </Stack>
-      </Toolbar>
-    </AppBar>
+    <header className={styles.header}>
+      <nav className={styles.navigation} aria-label={t('appNavigation')}>
+        <IconLink to='/' label={t('home')}>
+          <HomeIcon />
+        </IconLink>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.actions}>
+          <AudioManager />
+          <ThemeToggleButton />
+          <LangSelector />
+        </div>
+      </nav>
+    </header>
   );
 };
 

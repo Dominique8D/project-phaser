@@ -1,8 +1,7 @@
-import { IconButton, Stack } from '@mui/material';
-
-import OpenWithIcon from '@mui/icons-material/OpenWith';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import useLangTranslation from '../../custom-hooks/use-lang-translation';
+import { IconButton } from '../icon-button';
+import { AddIcon, ChangeSceneIcon, MoveIcon } from '../icons';
+import styles from './test-game-controls.module.css';
 
 type TestGameControlsProps = {
   canMoveSprite: boolean;
@@ -17,18 +16,20 @@ const TestGameControls: React.FC<TestGameControlsProps> = ({
   moveSprite,
   addSprite,
 }) => {
+  const { t } = useLangTranslation('common');
+
   return (
-    <Stack direction='row'>
-      <IconButton onClick={changeScene}>
-        <ChangeCircleIcon />
+    <div className={styles.controls}>
+      <IconButton onClick={changeScene} label={t('changeScene')}>
+        <ChangeSceneIcon />
       </IconButton>
-      <IconButton disabled={canMoveSprite} onClick={moveSprite}>
-        <OpenWithIcon />
+      <IconButton disabled={canMoveSprite} onClick={moveSprite} label={t('moveSprite')}>
+        <MoveIcon />
       </IconButton>
-      <IconButton onClick={addSprite}>
-        <AddCircleIcon />
+      <IconButton onClick={addSprite} label={t('addSprite')}>
+        <AddIcon />
       </IconButton>
-    </Stack>
+    </div>
   );
 };
 
