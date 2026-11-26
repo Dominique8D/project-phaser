@@ -8,7 +8,7 @@ const MAX_MOVE_RATIO = 0.4;
 const MIN_MOVE_RATIO = 0.1;
 const MOVE_DIST_MULTIPLIER = 0.7;
 const SPAWN_TIME = 2000;
-const INDICATOR_SCALE = 3;
+const INDICATOR_SCALE = 1.5;
 const ENEMY_OFFSET_Y = 100;
 
 export class EnemySpawnIndicator {
@@ -23,7 +23,8 @@ export class EnemySpawnIndicator {
     player: Player,
   ) {
     this.scene = hudScene;
-    this.image = hudScene.add.image(x, y, 'tst_fall').setScale(INDICATOR_SCALE);
+    const indicatorY = player.reverseMode ? hudScene.scale.height - y : y;
+    this.image = hudScene.add.image(x, indicatorY, 'enemy_warning').setScale(INDICATOR_SCALE);
     EventBus.emit(EventTypes.ENEMY_SPAWN);
 
     const targetX = this.getTargetX(x);
@@ -33,13 +34,17 @@ export class EnemySpawnIndicator {
       x: targetX,
       duration: SPAWN_TIME,
       ease: 'Sine.easeInOut',
+      onUpdate: () => {
+        this.image.setY(player.reverseMode ? hudScene.scale.height - y : y);
+      },
       onComplete: () => {
         const gameCam = gameScene.cameras.main;
         const worldX = this.image.x + gameCam.scrollX;
         const worldY = this.image.y + gameCam.scrollY;
+        const spawnOffsetY = player.reverseMode ? ENEMY_OFFSET_Y : -ENEMY_OFFSET_Y;
 
         EventBus.emit(EventTypes.ENEMY_ENTER);
-        new Enemy(gameScene, worldX, worldY - ENEMY_OFFSET_Y, player);
+        new Enemy(gameScene, worldX, worldY + spawnOffsetY, player);
         this.image.destroy();
       },
     });

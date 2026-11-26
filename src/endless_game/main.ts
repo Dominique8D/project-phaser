@@ -13,6 +13,8 @@ const config: Phaser.Types.Core.GameConfig = {
   width: 1024,
   height: 768,
   parent: GAME_CONTAINER_ID,
+  pixelArt: true,
+  roundPixels: true,
   backgroundColor: GAME_COLORS.backgroundEndless,
   scene: [Boot, Preloader, MainMenu, MainGame, GameOver, HUDScene],
   physics: {

@@ -3,15 +3,15 @@ import { EventTypes } from '../EventTypes';
 import { EventBus } from '../EventBus';
 
 enum PlayerState {
-  Move = 'move',
+  Idle = 'idle',
   Fall = 'fall',
-  Plummet = 'plummet',
+  Jump = 'jump',
 }
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   readonly jumpPower: number = 600;
   readonly maxFallSpeed: number = 3000;
-  currentState: PlayerState = PlayerState.Move;
+  currentState: PlayerState = PlayerState.Idle;
   bodyRef: Phaser.Physics.Arcade.Body;
 
   reverseMode: boolean = false;
@@ -94,6 +94,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   private flipGravity() {
     this.reverseMode = !this.reverseMode;
+    this.setFlipY(this.reverseMode);
 
     const worldGravity = this.scene.physics.world.gravity.y;
     const newGravity = this.reverseMode ? -2 * worldGravity : 0;
@@ -148,13 +149,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     let newState: PlayerState;
 
     if (this.isOnSurface()) {
-      newState = PlayerState.Move;
+      newState = PlayerState.Idle;
+    } else if ((this.reverseMode && velocityY > 0) || (!this.reverseMode && velocityY < 0)) {
+      newState = PlayerState.Jump;
     } else {
-      newState = velocityY === this.maxFallSpeed ? PlayerState.Plummet : PlayerState.Fall;
+      newState = PlayerState.Fall;
     }
 
     if (newState !== this.currentState) {
-      if (newState === PlayerState.Plummet) EventBus.emit(EventTypes.PLAYER_PLUMMET);
       this.currentState = newState;
       this.updateSprite();
     }
@@ -162,14 +164,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   updateSprite() {
     switch (this.currentState) {
-      case PlayerState.Move:
-        this.setTexture('player_move');
+      case PlayerState.Idle:
+        this.setTexture('player_idle');
         break;
       case PlayerState.Fall:
         this.setTexture('player_fall');
         break;
-      case PlayerState.Plummet:
-        this.setTexture('player_plummet');
+      case PlayerState.Jump:
+        this.setTexture('player_jump');
         break;
     }
   }

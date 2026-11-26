@@ -42,10 +42,11 @@ export class Game extends Scene {
     this.load.glsl('bgShader', getAssetPath('endless/shaders/background.frag'));
 
     const images = {
-      enemy: 'enemyR.png',
-      player_move: 'moveR.png',
-      player_fall: 'fallR.png',
-      player_plummet: 'plummetR.png',
+      enemy: 'enemy.png',
+      enemy_warning: 'enemy_warning.png',
+      player_idle: 'player_idle.png',
+      player_fall: 'player_fall.png',
+      player_jump: 'player_jump.png',
     };
 
     Object.entries(images).forEach(([key, file]) => {
@@ -157,7 +158,7 @@ export class Game extends Scene {
     const playerStartX = screenWidth / 2;
     const playerStartY = WORLD_HEIGHT - playerVerticalStartOffset;
 
-    this.player = new Player(this, playerStartX, playerStartY, 'player_move');
+    this.player = new Player(this, playerStartX, playerStartY, 'player_idle');
     this.player.setScale(2);
 
     this.playerHeightTracker = new PlayerHeightTracker(this.player.y);

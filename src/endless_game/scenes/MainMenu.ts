@@ -11,7 +11,6 @@ import { GAME_COLORS } from '../../theme/game-colors';
 
 export class MainMenu extends Scene {
   title!: GameObjects.Text;
-  startButton!: GameObjects.Image;
   soundManager!: SoundManager;
   musicManager!: MusicManager;
 
@@ -26,17 +25,6 @@ export class MainMenu extends Scene {
     const centerX = this.cameras.main.width / 2;
     const centerY = this.cameras.main.height / 2;
 
-    this.startButton = this.add
-      .image(centerX, centerY, 'tst_powerup')
-      .setDepth(100)
-      .setScale(10)
-      .setInteractive();
-
-    this.startButton.on('pointerdown', () => {
-      this.scene.start(MAIN_GAME_ID);
-      EventBus.emit(EventTypes.SELECT_MENU_ITEM);
-    });
-
     this.title = this.add
       .text(centerX, centerY - 120, '', {
         fontFamily: ENDLESS_FONT_FAMILIES.title,
@@ -47,7 +35,13 @@ export class MainMenu extends Scene {
         align: 'center',
       })
       .setOrigin(0.5)
-      .setDepth(100);
+      .setDepth(100)
+      .setInteractive({ useHandCursor: true });
+
+    this.title.on('pointerdown', () => {
+      this.scene.start(MAIN_GAME_ID);
+      EventBus.emit(EventTypes.SELECT_MENU_ITEM);
+    });
 
     EventBus.on(EventTypes.UPDATE_TRANSLATIONS, (translations: Translations) => {
       if (translations.title) {
